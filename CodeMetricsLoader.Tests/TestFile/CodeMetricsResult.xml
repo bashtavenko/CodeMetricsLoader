@@ -1,0 +1,1102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeMetricsReport Version="12.0">
+  <Targets>
+    <Target Name="C:\My\Src\inbound-services\WebServices.Inbound\bin\Debug\WebServices.Inbound.dll">
+      <Modules>
+        <Module Name="WebServices.Inbound.dll" AssemblyVersion="1.0.0.0" FileVersion="1.0.0.0">
+          <Metrics>
+            <Metric Name="MaintainabilityIndex" Value="94" />
+            <Metric Name="CyclomaticComplexity" Value="112" />
+            <Metric Name="ClassCoupling" Value="21" />
+            <Metric Name="DepthOfInheritance" Value="1" />
+            <Metric Name="LinesOfCode" Value="112" />
+          </Metrics>
+          <Namespaces>
+            <Namespace Name="WebServices.Inbound">
+              <Metrics>
+                <Metric Name="MaintainabilityIndex" Value="94" />
+                <Metric Name="CyclomaticComplexity" Value="112" />
+                <Metric Name="ClassCoupling" Value="21" />
+                <Metric Name="DepthOfInheritance" Value="1" />
+                <Metric Name="LinesOfCode" Value="112" />
+              </Metrics>
+              <Types>
+                <Type Name="Constants">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="100" />
+                    <Metric Name="CyclomaticComplexity" Value="0" />
+                    <Metric Name="ClassCoupling" Value="0" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="0" />
+                  </Metrics>
+                  <Members />
+                </Type>
+                <Type Name="IQpayService">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="100" />
+                    <Metric Name="CyclomaticComplexity" Value="6" />
+                    <Metric Name="ClassCoupling" Value="14" />
+                    <Metric Name="DepthOfInheritance" Value="0" />
+                    <Metric Name="LinesOfCode" Value="0" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="AccountLookup(AccountLookupRequest) : AccountLookupResponse">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="0" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Cancellation(CancellationRequest) : CancellationResponse">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="0" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="GetPaymentStatus(GetPaymentStatusRequest) : GetPaymentStatusResponse">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="0" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="MakePayment(MakePaymentRequest) : MakePaymentResponse">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="0" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PinPurchase(PinPurchaseRequest) : PinPurchaseResponse">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="0" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Ping(PingRequest) : PingResponse">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="0" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="AccountDetails">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="5" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="5" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="Label.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Label.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Value.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Value.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="AccountDetails()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="AccountLookupRequest">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="7" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="7" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="AccountIdentifier.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="AccountIdentifier.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="LocationCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="LocationCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="AccountLookupRequest()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="AccountLookupResponse">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="7" />
+                    <Metric Name="ClassCoupling" Value="4" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="7" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="AccountDisplayDetails.get() : List&lt;AccountDetails&gt;">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="AccountDisplayDetails.set(List&lt;AccountDetails&gt;) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="AccountLookupResponse()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="CancellationRequest">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="93" />
+                    <Metric Name="CyclomaticComplexity" Value="11" />
+                    <Metric Name="ClassCoupling" Value="3" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="11" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="AccountIdentifier.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="AccountIdentifier.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="CarrierTransactionID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="CarrierTransactionID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="LocationCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="LocationCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="TransactionAmount.get() : decimal">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="TransactionAmount.set(decimal) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="CancellationRequest()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="CancellationResponse">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="7" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="7" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="CancellationReferenceID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="CancellationReferenceID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="CancellationResponse()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="GetPaymentStatusRequest">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="95" />
+                    <Metric Name="CyclomaticComplexity" Value="3" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="3" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="TransactionID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="TransactionID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="GetPaymentStatusRequest()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="GetPaymentStatusResponse">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="7" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="7" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="ConfirmationID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ConfirmationID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="GetPaymentStatusResponse()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="MakePaymentRequest">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="93" />
+                    <Metric Name="CyclomaticComplexity" Value="11" />
+                    <Metric Name="ClassCoupling" Value="3" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="11" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="AccountIdentifier.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="AccountIdentifier.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="LocationCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="LocationCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PaymentAmount.get() : decimal">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PaymentAmount.set(decimal) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="TransactionID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="TransactionID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="MakePaymentRequest()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="MakePaymentResponse">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="9" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="9" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="ConfirmationID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ConfirmationID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ReceiptText.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ReceiptText.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="MakePaymentResponse()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="PinPurchaseRequest">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="9" />
+                    <Metric Name="ClassCoupling" Value="3" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="9" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="LocationCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="LocationCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PaymentAmount.get() : decimal">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PaymentAmount.set(decimal) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ProductCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="TransactionID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="TransactionID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PinPurchaseRequest()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="PinPurchaseResponse">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="93" />
+                    <Metric Name="CyclomaticComplexity" Value="11" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="11" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="ConfirmationID.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ConfirmationID.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PIN.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PIN.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ReceiptText.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ReceiptText.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PinPurchaseResponse()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="PingRequest">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="95" />
+                    <Metric Name="CyclomaticComplexity" Value="3" />
+                    <Metric Name="ClassCoupling" Value="2" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="3" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="Echo.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Echo.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PingRequest()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="PingResponse">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="94" />
+                    <Metric Name="CyclomaticComplexity" Value="9" />
+                    <Metric Name="ClassCoupling" Value="3" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="9" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="Date.get() : DateTime">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Date.set(DateTime) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="1" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Echo.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Echo.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseCode.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="ResponseMessage.set(string) : void">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="95" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PingResponse()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+                <Type Name="QpayService">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="86" />
+                    <Metric Name="CyclomaticComplexity" Value="7" />
+                    <Metric Name="ClassCoupling" Value="16" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="13" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="AccountLookup(AccountLookupRequest) : AccountLookupResponse" File="c:\My\Src\inbound-services\WebServices.Inbound\QPayService.cs" Line="13">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="81" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="4" />
+                        <Metric Name="LinesOfCode" Value="2" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Cancellation(CancellationRequest) : CancellationResponse" File="c:\My\Src\inbound-services\WebServices.Inbound\QPayService.cs" Line="19">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="81" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="2" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="GetPaymentStatus(GetPaymentStatusRequest) : GetPaymentStatusResponse" File="c:\My\Src\inbound-services\WebServices.Inbound\QPayService.cs" Line="25">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="81" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="2" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="MakePayment(MakePaymentRequest) : MakePaymentResponse" File="c:\My\Src\inbound-services\WebServices.Inbound\QPayService.cs" Line="31">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="81" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="2" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="PinPurchase(PinPurchaseRequest) : PinPurchaseResponse" File="c:\My\Src\inbound-services\WebServices.Inbound\QPayService.cs" Line="37">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="81" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="2" />
+                        <Metric Name="LinesOfCode" Value="2" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="Ping(PingRequest) : PingResponse" File="c:\My\Src\inbound-services\WebServices.Inbound\QPayService.cs" Line="43">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="80" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="3" />
+                        <Metric Name="LinesOfCode" Value="2" />
+                      </Metrics>
+                    </Member>
+                    <Member Name="QpayService()">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="100" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+              </Types>
+            </Namespace>
+          </Namespaces>
+        </Module>
+      </Modules>
+    </Target>
+  </Targets>
+</CodeMetricsReport>
