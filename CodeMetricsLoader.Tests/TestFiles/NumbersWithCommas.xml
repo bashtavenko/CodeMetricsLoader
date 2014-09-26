@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeMetricsReport Version="12.0">
+  <Targets>
+    <Target Name="C:\My\Src\inbound-services\WebServices.Inbound\bin\Debug\WebServices.Inbound.dll">
+      <Modules>
+          <Module Name="WebServices.Inbound.dll" AssemblyVersion="1.0.0.0" FileVersion="1.0.0.0">
+              <Metrics>
+                  <Metric Name="MaintainabilityIndex" Value="87" />
+                  <Metric Name="CyclomaticComplexity" Value="7,559" />
+                  <Metric Name="ClassCoupling" Value="265" />
+                  <Metric Name="DepthOfInheritance" Value="3" />
+                  <Metric Name="LinesOfCode" Value="14,363" />
+              </Metrics>
+          </Module>
+      </Modules>
+    </Target>
+  </Targets>
+</CodeMetricsReport>

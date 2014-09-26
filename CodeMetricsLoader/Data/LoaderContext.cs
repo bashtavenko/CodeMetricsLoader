@@ -1,14 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace CodeMetricsLoader.Data
 {
     public class LoaderContext : DbContext
     {
+        public LoaderContext(string databaseName, IDatabaseInitializer<LoaderContext> initializer)
+            : base(databaseName)
+        {
+            Database.SetInitializer(initializer);
+        }
+
+        public LoaderContext(string connectionString)
+            : base(nameOrConnectionString: connectionString)
+        {
+            Database.SetInitializer(new CreateDatabaseIfNotExists<LoaderContext>());
+        }
+
+        public LoaderContext() : base("CodeMetricsLoaderWarehouse")
+        {
+            Database.SetInitializer(new CreateDatabaseIfNotExists<LoaderContext>());                        
+        }
+
         public DbSet<Target> Targets { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Namespace> Namespaces { get; set; }
@@ -19,6 +32,8 @@ namespace CodeMetricsLoader.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
             modelBuilder.Entity<Date>().ToTable("DimDate");
             modelBuilder.Entity<Target>().ToTable("DimTarget");
             modelBuilder.Entity<Module>().ToTable("DimModule");
@@ -26,6 +41,8 @@ namespace CodeMetricsLoader.Data
             modelBuilder.Entity<Type>().ToTable("DimType");
             modelBuilder.Entity<Member>().ToTable("DimMember");
             modelBuilder.Entity<Metrics>().ToTable("FactMetrics");
+
+            modelBuilder.Entity<Date>().Property(t => t.DateNoTime).HasColumnName("Date");            
         }
     }
 }
