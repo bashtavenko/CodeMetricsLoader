@@ -54,11 +54,7 @@ namespace CodeMetricsLoader
             var targets = new List<Target>();
             foreach (var targetElement in elements.Descendants("Target"))
             {                
-                var target = Mapper.Map<Target>(targetElement);
-                if (!string.IsNullOrEmpty(tag))
-                {
-                    target.Tag = tag;
-                }
+                var target = Mapper.Map<Target>(targetElement);                
 
                 targets.Add(target);
 

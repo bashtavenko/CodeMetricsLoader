@@ -29,7 +29,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void LoaderContext_SmokeTest_CanInitDatabase()
         {
-            var targets = _context.Targets.ToList();
+            var dates = _context.Dates.ToList();
         }
 
         [Test]

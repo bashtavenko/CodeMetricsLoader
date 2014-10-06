@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
+    <Compile Include="Data\Run.cs" />
     <Compile Include="LoaderConfiguration.cs" />
     <Compile Include="LoaderException.cs" />
     <Compile Include="Data\Date.cs" />
