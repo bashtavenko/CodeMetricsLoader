@@ -92,8 +92,7 @@ namespace CodeMetricsLoader
         /// <param name="targets">DTOs to save</param>
         public void SaveTargets(List<Target> targets)
         {
-            var date = new Date();
-            date.Targets = targets;
+            var date = new DimDate();            
             _context.Dates.Add(date);
             _context.SaveChanges();
         }

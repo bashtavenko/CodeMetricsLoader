@@ -2,7 +2,7 @@
 
 namespace CodeMetricsLoader.Data
 {
-    public class Run
+    public class DimRun
     {
         public int RunId { get; set; }
         public string Tag { get; set; }
@@ -13,11 +13,11 @@ namespace CodeMetricsLoader.Data
         public string Namespace { get; set; }
         public string Type { get; set; }
         public string Member { get; set; }
-        public virtual List<Metrics> Metrics { get; set; }
+        public virtual List<FactMetrics> Metrics { get; set; }
 
-        public Run()
+        public DimRun()
         {
-            Metrics = new List<Metrics>();
+            Metrics = new List<FactMetrics>();
         }
     }
 }

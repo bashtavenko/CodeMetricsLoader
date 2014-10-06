@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace CodeMetricsLoader.Data
 {
-    public class Date
+    public class DimDate
     {
         public int DateId { get; set; }
         public DateTime DateTime { get; set; }
@@ -13,17 +13,17 @@ namespace CodeMetricsLoader.Data
         public int Month { get; set; }
         public string MonthString { get; set; }        
         public int WeekOfYear { get; set; }
-        public DateTime DateNoTime { get; set; }
+        public DateTime Date { get; set; }
         public int DayOfYear { get; set; }
         public int DayOfMonth { get; set; }
         public int DayOfWeek { get; set; }
-        public virtual List<Target> Targets { get; set;}
+        public virtual List<FactMetrics> Metrics { get; set;}
 
-        public Date() : this(DateTime.Now)
+        public DimDate() : this(DateTime.Now)
         {
         }
         
-        public Date (DateTime dateTime)
+        public DimDate (DateTime dateTime)
         {
             DateTime = dateTime;
             Year = this.DateTime.Year;
@@ -35,12 +35,12 @@ namespace CodeMetricsLoader.Data
             Calendar calendar = dfi.Calendar;
             WeekOfYear = calendar.GetWeekOfYear(this.DateTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
 
-            DateNoTime = this.DateTime.Date;
+            Date = this.DateTime.Date;
             DayOfYear = this.DateTime.DayOfYear;
             DayOfMonth = this.DateTime.Day;
             DayOfWeek = (int)this.DateTime.DayOfWeek;
 
-            Targets = new List<Target>();
+            Metrics = new List<FactMetrics>();
         }
     }
 }

@@ -2,7 +2,6 @@
 {
     public class Metrics
     {
-        public int MetricsId { get; set; }
         public int MaintainabilityIndex { get; set; }
         public int CyclomaticComplexity { get; set; }
         public int ClassCoupling { get; set; }

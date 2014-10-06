@@ -76,10 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
-    <Compile Include="Data\Run.cs" />
+    <Compile Include="Data\FactMetrics.cs" />
+    <Compile Include="Data\DimRun.cs" />
     <Compile Include="LoaderConfiguration.cs" />
     <Compile Include="LoaderException.cs" />
-    <Compile Include="Data\Date.cs" />
+    <Compile Include="Data\DimDate.cs" />
     <Compile Include="Data\LoaderContext.cs" />
     <Compile Include="Data\Member.cs" />
     <Compile Include="Data\Metrics.cs" />

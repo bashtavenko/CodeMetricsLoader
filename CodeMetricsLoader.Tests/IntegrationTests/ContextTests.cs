@@ -34,76 +34,31 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
 
         [Test]
         public void LoaderContext_Save_CanSave()
-        {            
-            var target = new Target
-            { 
-                Name = "WebServices.Inbound.dll",
-                Modules = new List<Module>
-                {
-                    new Module
-                    {
-                         Name = "WebServices.Inbound",
-                         AssemblyVersion = "1.0.0.0",
-                         FileVersion = "1.0.0.0",
-                         Metrics = new Metrics
-                         {
-                            MaintainabilityIndex = 94,
-                            CyclomaticComplexity = 112,
-                            ClassCoupling = 21,
-                            DepthOfInheritance = 1,
-                            LinesOfCode = 112
-                         },
-                         Namespaces = new List<Namespace>
-                         {
-                             new Namespace
-                             {
-                                 Name = "WebServices.Inbound",
-                                 Metrics = new Metrics
-                                 {
-                                    MaintainabilityIndex = 94,
-                                    CyclomaticComplexity = 112,
-                                    ClassCoupling = 21,
-                                    DepthOfInheritance = 1,
-                                    LinesOfCode = 112                                    
-                                 },
-                                 Types = new List<Data.Type>
-                                 {
-                                     new Data.Type
-                                     {
-                                         Name = "Constants",
-                                         Metrics =  new Metrics
-                                         {
-                                            MaintainabilityIndex = 94,
-                                            CyclomaticComplexity = 112,
-                                            ClassCoupling = 21,
-                                            DepthOfInheritance = 1,
-                                            LinesOfCode = 112                                            
-                                         },
-                                         Members = new List<Member>
-                                         {
-                                             new Member
-                                             {
-                                                 Name = "GetPaymentStatus(GetPaymentStatusRequest) : GetPaymentStatusResponse",
-                                                 Metrics =  new Metrics
-                                                 {
-                                                    MaintainabilityIndex = 94,
-                                                    CyclomaticComplexity = 112,
-                                                    ClassCoupling = 21,
-                                                    DepthOfInheritance = 1,
-                                                    LinesOfCode = 112                                                    
-                                                 },                                                 
-                                             }
-                                         }
-                                     },                                     
-                                 }
-                             }
-                         }
-                    }
-                }
+        {
+            var run = new DimRun
+            {
+                Tag = "prog/master",
+                Target = "WebServices.Inbound.dll",
+                Module = "WebServices.Inbound",
+                ModuleAssemblyVersion = "1.0.0.0",
+                ModuleFileVersion = "1.0.0.0",
+                Namespace = "WebServices.Inbound",
+                Type = "Constants",
+                Member = "GetPaymentStatus(GetPaymentStatusRequest) : GetPaymentStatusResponse"
             };
 
-            var date = new Date();
-            date.Targets.Add(target);
+            var date = new DimDate();
+            var metrics = new FactMetrics
+            {
+                MaintainabilityIndex = 94,
+                CyclomaticComplexity = 112,
+                ClassCoupling = 21,
+                DepthOfInheritance = 1,
+                LinesOfCode = 112,
+                Run = run,
+                Date = date
+            };               
+            _context.Metrics.Add(metrics);
             _context.SaveChanges();
         }
     }
