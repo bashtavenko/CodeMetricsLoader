@@ -28,5 +28,12 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
             _loader.Load(metrics, "master");
         }
 
+        [Test]
+        public void Loader_SmokeTest_CanSaveTheSameXmlTwice()
+        {
+            XElement metrics = UnitTests.LoaderTests.LoadXml();
+            _loader.Load(metrics, "master");
+            _loader.Load(metrics, "master");
+        }
     }
 }

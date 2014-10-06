@@ -30,9 +30,9 @@ namespace CodeMetricsLoader
         /// <param name="tag">Optional build or repository tag</param>
         public void Load(XElement elements, string tag)
         {
-            List<Target> targets = MapXmlToEntities(elements, tag);
+            List<Target> targets = MapXmlToEntities(elements);
             _logger.Log("Saving to database...");
-            SaveTargets(targets);
+            SaveTargets(targets, tag);
             _logger.Log("Done.");
         }
 
@@ -42,7 +42,7 @@ namespace CodeMetricsLoader
         /// <param name="elements">metric xml nodes</param>
         /// <param name="tag">optional tag</param>
         /// <returns>Collection of DTOs</returns>
-        public List<Target> MapXmlToEntities(XElement elements, string tag)
+        public List<Target> MapXmlToEntities(XElement elements)
         {   
             if (elements == null || elements.Elements().Count() != 1)
             {
@@ -90,11 +90,52 @@ namespace CodeMetricsLoader
         /// Save DTOs to database
         /// </summary>
         /// <param name="targets">DTOs to save</param>
-        public void SaveTargets(List<Target> targets)
+        public void SaveTargets(List<Target> targets, string tag)
         {
-            var date = new DimDate();            
-            _context.Dates.Add(date);
-            _context.SaveChanges();
+            var dimDate = new DimDate();
+            foreach (var target in targets)
+            {
+                foreach (var module in target.Modules)
+                {
+                    foreach (var ns in module.Namespaces)
+                    {
+                        foreach (var type in ns.Types)
+                        {
+                            foreach (var member in type.Members)
+                            {
+                                var dimRunIn = new DimRun
+                                {
+                                    Tag = tag,
+                                    Target = target.Name,
+                                    Module = module.Name,
+                                    ModuleAssemblyVersion = module.AssemblyVersion,
+                                    ModuleFileVersion = module.FileVersion,
+                                    Namespace = ns.Name,
+                                    Type = type.Name,
+                                    Member = member.Name
+                                };
+
+                                // These fields must be indexed in db
+                                var dimRunDb = _context.Runs
+                                    .Where(r => r.Tag == dimRunIn.Tag &&
+                                                r.Target == dimRunIn.Target &&
+                                                r.Module == dimRunIn.Module &&
+                                                r.Namespace == dimRunIn.Namespace &&
+                                                r.Type == dimRunIn.Type &&
+                                                r.Member == dimRunIn.Member)
+                                                .Take(2);
+
+                                DimRun dimRun = dimRunDb != null && dimRunDb.Count() == 1 ? dimRunDb.First() : dimRunIn;                                                
+                                FactMetrics factMetrics = Mapper.Map<FactMetrics>(member.Metrics);
+                                factMetrics.Run = dimRun;
+                                factMetrics.Date = dimDate;
+                                _context.Metrics.Add(factMetrics);
+                                _context.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

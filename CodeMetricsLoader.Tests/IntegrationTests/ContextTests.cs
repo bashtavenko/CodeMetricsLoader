@@ -17,7 +17,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
 
         public static LoaderContext CreateTestContext()
         {
-            return new LoaderContext(_databaseName, new DropCreateDatabaseAlways<LoaderContext>());
+            return new LoaderContext(_databaseName, new DropCreateDatabaseAlways<LoaderContext>());            
         }
 
         [TestFixtureSetUp]

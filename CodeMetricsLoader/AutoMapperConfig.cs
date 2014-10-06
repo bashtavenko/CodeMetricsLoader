@@ -21,22 +21,20 @@ namespace CodeMetricsLoader
             Mapper.CreateMap<XElement, Data.Module>()
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
                 .ForMember(m => m.FileVersion, opt => opt.MapFrom(src => GetStringAttribute(src, "FileVersion")))
-                .ForMember(m => m.AssemblyVersion, opt => opt.MapFrom(src => GetStringAttribute(src, "AssemblyVersion")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));            
+                .ForMember(m => m.AssemblyVersion, opt => opt.MapFrom(src => GetStringAttribute(src, "AssemblyVersion")));                
 
             Mapper.CreateMap<XElement, Namespace>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
+                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")));                
 
             Mapper.CreateMap<XElement, Data.Type>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
+                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")));                
 
             Mapper.CreateMap<XElement, Member>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.File, opt => opt.MapFrom(src => GetStringAttribute(src, "File")))
-                .ForMember(m => m.Line, opt => opt.MapFrom(src => GetNullableIntAttribute(src, "Line")))                
+                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))                
                 .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
+
+            Mapper.CreateMap<Metrics, FactMetrics>();
+                
         }
 
         private static Metrics MapMetrics(XElement elements)

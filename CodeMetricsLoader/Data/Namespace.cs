@@ -6,7 +6,6 @@ namespace CodeMetricsLoader.Data
     {     
         public string Name { get; set; }     
         public List<Type> Types { get; set; }
-        public Metrics Metrics { get; set; }        
 
         public Namespace()
         {

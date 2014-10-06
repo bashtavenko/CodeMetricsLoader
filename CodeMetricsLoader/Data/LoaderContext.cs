@@ -29,6 +29,8 @@ namespace CodeMetricsLoader.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
             modelBuilder.Entity<DimDate>().HasKey(k => k.DateId);
             modelBuilder.Entity<DimRun>().HasKey(k => k.RunId);
             modelBuilder.Entity<FactMetrics>().HasKey(k => k.MetricsId);
