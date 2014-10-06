@@ -12,8 +12,11 @@
 
         public int MaintainabilityIndex { get; set; }
         public int CyclomaticComplexity { get; set; }
-        public int ClassCoupling { get; set; }
-        public int DepthOfInheritance { get; set; }
+        public int ClassCoupling { get; set; }       
+
+        // Members don't have it
+        public int? DepthOfInheritance { get; set; }
+
         public int LinesOfCode { get; set; }                
     }
 }

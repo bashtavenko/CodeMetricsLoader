@@ -32,7 +32,16 @@ namespace CodeMetricsLoader.Data
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<DimDate>().HasKey(k => k.DateId);
+
             modelBuilder.Entity<DimRun>().HasKey(k => k.RunId);
+
+            // Can't have index on nvarchar(max) and max index length is 900          
+            modelBuilder.Entity<DimRun>().Property(p => p.Tag).HasColumnType("varchar").IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<DimRun>().Property(p => p.Module).HasColumnType("varchar").IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<DimRun>().Property(p => p.Namespace).HasColumnType("varchar").HasMaxLength(100);
+            modelBuilder.Entity<DimRun>().Property(p => p.Type).HasColumnType("varchar").HasMaxLength(150);
+            modelBuilder.Entity<DimRun>().Property(p => p.Member).HasColumnType("varchar").HasMaxLength(255);
+
             modelBuilder.Entity<FactMetrics>().HasKey(k => k.MetricsId);
         }
     }

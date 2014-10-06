@@ -6,7 +6,8 @@ namespace CodeMetricsLoader.Data
     {     
         public string Name { get; set; }
         public string AssemblyVersion { get; set; }
-        public string FileVersion { get; set; }     
+        public string FileVersion { get; set; }
+        public Metrics Metrics { get; set; }        
         public List<Namespace> Namespaces { get; set; }        
 
         public Module ()

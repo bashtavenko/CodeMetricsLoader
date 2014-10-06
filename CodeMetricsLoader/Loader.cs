@@ -92,50 +92,71 @@ namespace CodeMetricsLoader
         /// <param name="targets">DTOs to save</param>
         public void SaveTargets(List<Target> targets, string tag)
         {
-            var dimDate = new DimDate();
+            var dimDate = new DimDate();            
             foreach (var target in targets)
             {
+                var dimRun = new DimRun { Tag = tag, Target = target.Name };                            
                 foreach (var module in target.Modules)
                 {
+                    dimRun = Mapper.Map<Data.Module, DimRun>(module, dimRun);
+                    dimRun = GetEntityFromDbOrOriginal(dimRun);
+                    InsertMetrics(module.Metrics, dimRun, dimDate);                    
+                    
                     foreach (var ns in module.Namespaces)
                     {
+                        dimRun = Mapper.Map<Data.Namespace, DimRun>(ns, dimRun);
+                        var dimRun2 = GetEntityFromDbOrOriginal(dimRun);
+                        InsertMetrics(ns.Metrics, dimRun2, dimDate);                    
+
                         foreach (var type in ns.Types)
                         {
+                            dimRun = Mapper.Map<Data.Type, DimRun>(type, dimRun);
+                            dimRun = GetEntityFromDbOrOriginal(dimRun);
+                            InsertMetrics(type.Metrics, dimRun, dimDate);             
+
                             foreach (var member in type.Members)
                             {
-                                var dimRunIn = new DimRun
-                                {
-                                    Tag = tag,
-                                    Target = target.Name,
-                                    Module = module.Name,
-                                    ModuleAssemblyVersion = module.AssemblyVersion,
-                                    ModuleFileVersion = module.FileVersion,
-                                    Namespace = ns.Name,
-                                    Type = type.Name,
-                                    Member = member.Name
-                                };
-
-                                // These fields must be indexed in db
-                                var dimRunDb = _context.Runs
-                                    .Where(r => r.Tag == dimRunIn.Tag &&
-                                                r.Target == dimRunIn.Target &&
-                                                r.Module == dimRunIn.Module &&
-                                                r.Namespace == dimRunIn.Namespace &&
-                                                r.Type == dimRunIn.Type &&
-                                                r.Member == dimRunIn.Member)
-                                                .Take(2);
-
-                                DimRun dimRun = dimRunDb != null && dimRunDb.Count() == 1 ? dimRunDb.First() : dimRunIn;                                                
-                                FactMetrics factMetrics = Mapper.Map<FactMetrics>(member.Metrics);
-                                factMetrics.Run = dimRun;
-                                factMetrics.Date = dimDate;
-                                _context.Metrics.Add(factMetrics);
-                                _context.SaveChanges();
+                                dimRun = Mapper.Map<Data.Member, DimRun>(member, dimRun);
+                                dimRun = GetEntityFromDbOrOriginal(dimRun);
+                                InsertMetrics(type.Metrics, dimRun, dimDate);                                        
                             }
                         }
                     }
                 }
             }
+        }
+
+
+        private DimRun GetEntityFromDbOrOriginal(DimRun dimRun)
+        {
+            var dimRunDb = _context.Runs
+                .Where(r => r.Tag == dimRun.Tag &&
+                            r.Module == dimRun.Module &&
+                            r.Namespace == dimRun.Namespace &&
+                            r.Type == dimRun.Type &&
+                            r.Member == dimRun.Member)
+                            .Take(2);
+
+            if (dimRunDb != null && dimRunDb.Count() == 1)
+            {
+                return dimRunDb.First();
+            }
+            else
+            {
+                // We don't want the object to be tracked by EF context, it should be new
+                var dimRunNew = new DimRun();
+                dimRunNew = Mapper.Map<DimRun, DimRun>(dimRun, dimRunNew);
+                return dimRunNew;
+            }
+        }
+
+        private void InsertMetrics(Metrics metrics, DimRun dimRun, DimDate dimDate)
+        {
+            FactMetrics factMetrics = Mapper.Map<FactMetrics>(metrics);
+            factMetrics.Run = dimRun;
+            factMetrics.Date = dimDate;
+            _context.Metrics.Add(factMetrics);
+            _context.SaveChanges();
         }
     }
 }
