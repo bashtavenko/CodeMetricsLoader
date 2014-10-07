@@ -1,39 +1,54 @@
-﻿using CodeMetricsLoader.Data;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Xml.Linq;
+
+using CodeMetricsLoader.Data;
+using NUnit.Framework;
 
 namespace CodeMetricsLoader.Tests.IntegrationTests
 {
     [TestFixture]
     public class LoaderTests
-    {        
-        private Loader _loader;
+    {
+        [Test]
+        public void Loader_Load_CanSaveXml()
+        {
+            LoaderContext context = ContextTests.CreateTestContext();            
+            Loader loader = new Loader(context, new TestLogger());
 
-        [TestFixtureSetUp]
-        public void Setup()
+            XElement metrics = UnitTests.LoaderTests.LoadXml();
+            loader.Load(metrics, "master");
+
+            LoaderContext testContext = ContextTests.CreateTestContext();
+
+            // this can fail if running along with other tests
+            Assert.AreEqual(130, testContext.Metrics.Count());
+            Assert.AreEqual(1, testContext.Dates.Count());
+            Assert.AreEqual(1, testContext.Targets.Count());
+            Assert.AreEqual(1, testContext.Namespaces.Count());
+            Assert.AreEqual(16, testContext.Types.Count());
+            Assert.AreEqual(112, testContext.Members.Count());
+
+            var metricsFromDb = testContext.Metrics.Where(m => m.Namespace.Name == "WebServices.Inbound").First();
+            Assert.IsNotNull(metricsFromDb);
+            Assert.AreEqual(94, metricsFromDb.MaintainabilityIndex);
+            Assert.AreEqual(112, metricsFromDb.CyclomaticComplexity);
+            Assert.AreEqual(21, metricsFromDb.ClassCoupling);
+            Assert.AreEqual(1, metricsFromDb.DepthOfInheritance);
+            Assert.AreEqual(112, metricsFromDb.LinesOfCode);            
+        }
+
+        [Test]
+        public void Loader_Load_CanSaveTheSameXmlTwice()
         {
             LoaderContext context = ContextTests.CreateTestContext();
-            _loader = new Loader(context, new TestLogger());
-        }
 
-        [Test]
-        public void Loader_SmokeTest_CanSaveXml()
-        {
-            XElement metrics = UnitTests.LoaderTests.LoadXml();
-            _loader.Load(metrics, "master");
-        }
+            var loader = new Loader(context, new TestLogger());
 
-        [Test]
-        public void Loader_SmokeTest_CanSaveTheSameXmlTwice()
-        {
             XElement metrics = UnitTests.LoaderTests.LoadXml();
-            _loader.Load(metrics, "master");
-            _loader.Load(metrics, "master");
+            loader.Load(metrics, "master");
+            loader.Load(metrics, "master");
+            
+            // ..no easy way to assert since database is not being drop when run multiple tests in the same class
         }
     }
 }

@@ -1,11 +1,10 @@
-﻿using CodeMetricsLoader.Data;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using NUnit.Framework;
+
+using CodeMetricsLoader.Data;
+
 
 namespace CodeMetricsLoader.Tests.IntegrationTests
 {
@@ -35,18 +34,21 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void LoaderContext_Save_CanSave()
         {
-            var run = new DimRun
+            var target = new DimTarget
             {
-                Tag = "prog/master",
-                Target = "WebServices.Inbound.dll",
-                Module = "WebServices.Inbound",
-                ModuleAssemblyVersion = "1.0.0.0",
-                ModuleFileVersion = "1.0.0.0",
-                Namespace = "WebServices.Inbound",
-                Type = "Constants",
-                Member = "GetPaymentStatus(GetPaymentStatusRequest) : GetPaymentStatusResponse"
+                Tag = "prog-master",
+                Name = @"C:\My\Src\inbound-services\WebServices.Inbound\bin\Debug\WebServices.Inbound.dll",                
             };
 
+            var module = new DimModule
+            {
+                Name = "WebServices.Inbound",
+                AssemblyVersion = "1.0.0.0",
+                FileVersion = "1.0.0.0",
+            };
+            target.Modules.Add(module);
+            _context.Targets.Add(target);
+                        
             var date = new DimDate();
             var metrics = new FactMetrics
             {
@@ -55,11 +57,11 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 ClassCoupling = 21,
                 DepthOfInheritance = 1,
                 LinesOfCode = 112,
-                Run = run,
+                Module = module,
                 Date = date
             };               
             _context.Metrics.Add(metrics);
-            _context.SaveChanges();
+            _context.SaveChanges();            
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using System.IO;
-using CodeMetricsLoader.Data;
+using System.Xml.Linq;
+
 using NUnit.Framework;
-using System.Collections.Generic;
+
+using CodeMetricsLoader.Data;
 using CodeMetricsLoader.Tests.IntegrationTests;
 
 namespace CodeMetricsLoader.Tests.UnitTests

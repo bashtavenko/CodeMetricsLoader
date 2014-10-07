@@ -77,7 +77,11 @@
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="Data\FactMetrics.cs" />
-    <Compile Include="Data\DimRun.cs" />
+    <Compile Include="Data\DimTarget.cs" />
+    <Compile Include="Data\DimModule.cs" />
+    <Compile Include="Data\DimNamespace.cs" />
+    <Compile Include="Data\DimType.cs" />
+    <Compile Include="Data\DimMember.cs" />
     <Compile Include="LoaderConfiguration.cs" />
     <Compile Include="LoaderException.cs" />
     <Compile Include="Data\DimDate.cs" />

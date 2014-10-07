@@ -6,7 +6,7 @@ namespace CodeMetricsLoader
     [Serializable]
     public class LoaderException : Exception, ISerializable
     {
-        const string errorMessagePrefix = "Could not auto-fund the account.";
+        const string errorMessagePrefix = "Could not load metrics.";
         public LoaderException()
             : base(errorMessagePrefix) {}
 

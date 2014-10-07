@@ -36,32 +36,26 @@ namespace CodeMetricsLoader
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))                
                 .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
 
-            Mapper.CreateMap<Metrics, FactMetrics>();
-
-            Mapper.CreateMap<Data.Module, DimRun>()
-                .ForMember(m => m.Module, opt => opt.MapFrom(src => src.Name))
-                .ForMember(m => m.ModuleFileVersion, opt => opt.MapFrom(src => src.FileVersion))
-                .ForMember(m => m.ModuleAssemblyVersion, opt => opt.MapFrom(src => src.AssemblyVersion))
+            Mapper.CreateMap<Metrics, FactMetrics>()
+                .ForMember(m => m.Module, opt => opt.Ignore())
                 .ForMember(m => m.Type, opt => opt.Ignore())
-                .ForMember(m => m.Metrics, opt => opt.Ignore());
-                
+                .ForMember(m => m.Namespace, opt => opt.Ignore())
+                .ForMember(m => m.Member, opt => opt.Ignore());
 
-            Mapper.CreateMap<Data.Namespace, DimRun>()
-                .ForMember(m => m.Namespace, opt => opt.MapFrom(src => src.Name))
+            Mapper.CreateMap<Data.Module, DimModule>()
+                .ForMember(m => m.Metrics, opt => opt.Ignore())
+                .ForMember(m => m.Namespaces, opt => opt.Ignore());                
+
+            Mapper.CreateMap<Data.Namespace, DimNamespace>()
+                .ForMember(m => m.Types, opt => opt.Ignore())
+                .ForMember(m => m.Metrics, opt => opt.Ignore());
+
+            Mapper.CreateMap<Data.Type, DimType>()
+                .ForMember(m => m.Members, opt => opt.Ignore())
+                .ForMember(m => m.Metrics, opt => opt.Ignore());
+
+            Mapper.CreateMap<Data.Member, DimMember>()
                 .ForMember(m => m.Type, opt => opt.Ignore())
-                .ForMember(m => m.Metrics, opt => opt.Ignore());
-
-            Mapper.CreateMap<Data.Type, DimRun>()
-                .ForMember(m => m.Type, opt => opt.MapFrom(src => src.Name))
-                .ForMember(m => m.Metrics, opt => opt.Ignore());
-
-            Mapper.CreateMap<Data.Member, DimRun>()
-                .ForMember(m => m.Member, opt => opt.MapFrom(src => src.Name))
-                .ForMember(m => m.Type, opt => opt.Ignore())
-                .ForMember(m => m.Metrics, opt => opt.Ignore());
-
-            Mapper.CreateMap<DimRun, DimRun>()
-                .ForMember(m => m.RunId, opt => opt.Ignore())
                 .ForMember(m => m.Metrics, opt => opt.Ignore());
         }
 
