@@ -99,26 +99,29 @@ namespace CodeMetricsLoader
                 foreach (var module in target.Modules)
                 {
                     dimRun = Mapper.Map<Data.Module, DimRun>(module, dimRun);
-                    dimRun = GetEntityFromDbOrOriginal(dimRun);
+                    dimRun = GetEntityFromDbOrSource(dimRun);
                     InsertMetrics(module.Metrics, dimRun, dimDate);                    
                     
                     foreach (var ns in module.Namespaces)
                     {
+                        dimRun = Mapper.Map<DimRun, DimRun>(dimRun, new DimRun());
                         dimRun = Mapper.Map<Data.Namespace, DimRun>(ns, dimRun);
-                        var dimRun2 = GetEntityFromDbOrOriginal(dimRun);
-                        InsertMetrics(ns.Metrics, dimRun2, dimDate);                    
+                        dimRun = GetEntityFromDbOrSource(dimRun);
+                        InsertMetrics(ns.Metrics, dimRun, dimDate);                    
 
                         foreach (var type in ns.Types)
                         {
+                            dimRun = Mapper.Map<DimRun, DimRun>(dimRun, new DimRun());
                             dimRun = Mapper.Map<Data.Type, DimRun>(type, dimRun);
-                            dimRun = GetEntityFromDbOrOriginal(dimRun);
+                            dimRun = GetEntityFromDbOrSource(dimRun);
                             InsertMetrics(type.Metrics, dimRun, dimDate);             
 
                             foreach (var member in type.Members)
                             {
+                                dimRun = Mapper.Map<DimRun, DimRun>(dimRun, new DimRun());
                                 dimRun = Mapper.Map<Data.Member, DimRun>(member, dimRun);
-                                dimRun = GetEntityFromDbOrOriginal(dimRun);
-                                InsertMetrics(type.Metrics, dimRun, dimDate);                                        
+                                dimRun = GetEntityFromDbOrSource(dimRun);
+                                InsertMetrics(member.Metrics, dimRun, dimDate);                                        
                             }
                         }
                     }
@@ -127,7 +130,7 @@ namespace CodeMetricsLoader
         }
 
 
-        private DimRun GetEntityFromDbOrOriginal(DimRun dimRun)
+        private DimRun GetEntityFromDbOrSource(DimRun dimRun)
         {
             var dimRunDb = _context.Runs
                 .Where(r => r.Tag == dimRun.Tag &&
@@ -137,17 +140,7 @@ namespace CodeMetricsLoader
                             r.Member == dimRun.Member)
                             .Take(2);
 
-            if (dimRunDb != null && dimRunDb.Count() == 1)
-            {
-                return dimRunDb.First();
-            }
-            else
-            {
-                // We don't want the object to be tracked by EF context, it should be new
-                var dimRunNew = new DimRun();
-                dimRunNew = Mapper.Map<DimRun, DimRun>(dimRun, dimRunNew);
-                return dimRunNew;
-            }
+            return (dimRunDb != null && dimRunDb.Count() == 1) ? dimRunDb.First() : dimRun;            
         }
 
         private void InsertMetrics(Metrics metrics, DimRun dimRun, DimDate dimDate)
