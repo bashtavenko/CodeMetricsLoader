@@ -39,7 +39,7 @@ namespace CodeMetricsLoader
                     elements = XElement.Parse(xml);
                 }
 
-                loader.Load(elements, config.Tag);
+                loader.Load(elements, config.Tag, false);
             }
             catch (Exception ex)
             {

@@ -12,7 +12,10 @@ namespace CodeMetricsLoader
         public string Tag { get; set; }
 
         [Option('c', "connection", Required = false, HelpText = "Connection string")]
-        public string ConnectionString { get; set; }        
+        public string ConnectionString { get; set; }
+
+        [Option('d', "datetime", Required = false, DefaultValue = false, HelpText = "Use data and time for date dimension")]
+        public bool UseDateAndTime { get; set; }
 
         [ParserState]
         public IParserState LastParserState { get; set; }

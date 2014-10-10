@@ -32,11 +32,11 @@ namespace CodeMetricsLoader
         /// </summary>
         /// <param name="elements">Root node of the metrics tree</param>
         /// <param name="tag">Optional build or repository tag</param>
-        public void Load(XElement elements, string tag)
+        public void Load(XElement elements, string tag, bool useDateTime)
         {
             List<Target> targets = MapXmlToEntities(elements);
             _logger.Log("Saving to database...");
-            SaveTargets(targets, tag);
+            SaveTargets(targets, tag, useDateTime);
             _logger.Log("Done.");
         }
 
@@ -98,9 +98,13 @@ namespace CodeMetricsLoader
         /// </summary>
         /// <param name="targets">DTOs to save</param>
         /// <param name="tag">Tag name</param>
-        public void SaveTargets(List<Target> targets, string tag)
+        public void SaveTargets(List<Target> targets, string tag, bool useDateTime)
         {
             var dimDate = new DimDate();
+            if (!useDateTime)            
+            {
+                dimDate = GetOrAddEntity<DimDate>(_context.Dates, dimDate, delegate(DimDate d) { return d.Date == dimDate.Date;});
+            }
             FactMetrics factMetrics;
             foreach (var target in targets)
             {

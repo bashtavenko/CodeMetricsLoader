@@ -16,7 +16,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
             Loader loader = new Loader(context, new TestLogger());
 
             XElement metrics = UnitTests.LoaderTests.LoadXml();
-            loader.Load(metrics, "master");
+            loader.Load(metrics, "master", false);
 
             LoaderContext testContext = ContextTests.CreateTestContext();
 
@@ -45,8 +45,8 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
             var loader = new Loader(context, new TestLogger());
 
             XElement metrics = UnitTests.LoaderTests.LoadXml();
-            loader.Load(metrics, "master");
-            loader.Load(metrics, "master");
+            loader.Load(metrics, "master", false);
+            loader.Load(metrics, "master", false);
             
             // ..no easy way to assert since database is not being drop when run multiple tests in the same class
         }
