@@ -35,11 +35,26 @@ namespace CodeMetricsLoader.Data
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
+            
+            
+
+            
             modelBuilder.Entity<DimTarget>().HasKey(k => k.TargetId);
+            modelBuilder.Entity<DimTarget>().Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);
+            modelBuilder.Entity<DimTarget>().Property(k => k.Tag).HasColumnType("varchar").HasMaxLength(255);
+
             modelBuilder.Entity<DimModule>().HasKey(k => k.ModuleId);
+            modelBuilder.Entity<DimModule>().Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);
+            
+
             modelBuilder.Entity<DimNamespace>().HasKey(k => k.NamespaceId);
+            modelBuilder.Entity<DimNamespace>().Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);
+
             modelBuilder.Entity<DimType>().HasKey(k => k.TypeId);
+            modelBuilder.Entity<DimType>().Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);
+
             modelBuilder.Entity<DimMember>().HasKey(k => k.MemberId);            
+            modelBuilder.Entity<DimMember>().Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);
 
             modelBuilder.Entity<DimDate>().HasKey(k => k.DateId);
             
