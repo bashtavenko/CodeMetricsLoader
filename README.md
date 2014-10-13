@@ -24,17 +24,22 @@ First grab Microsoft Metrics Power Tool and install it.
 
 Then generate metrics xml for some dll with
 
+```
 metrics.exe /f:myfile.dll /o:metrics.xml
+```
 
 Run code metrics loader utility with
 
+```
 CodeMetricsLoader.exe --f metrics.xml --t myrepo-master
+```
 
 You can pass connection string in --c parameter. If you don't
 then LocalDb will be used (LocalDb)\v11.0
 
 #A few helpful queries
 
+```
 -- Top 10 worst methods
 select top 10 dm.Name, fm.MaintainabilityIndex, fm.CyclomaticComplexity, fm.ClassCoupling,     fm.DepthOfInheritance, fm.LinesOfCode
  from FactMetrics fm
@@ -55,3 +60,4 @@ join DimDate dd on dd.DateId = fm.DateId
 join DimModule dmo on dmo.ModuleId = fm.ModuleId
 where dmo.Name like '%Account.dll'
 order by dd.[Date] desc
+```
