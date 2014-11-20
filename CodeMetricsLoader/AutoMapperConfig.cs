@@ -57,6 +57,8 @@ namespace CodeMetricsLoader
             Mapper.CreateMap<Data.Member, DimMember>()
                 .ForMember(m => m.Type, opt => opt.Ignore())
                 .ForMember(m => m.Metrics, opt => opt.Ignore());
+
+            Mapper.CreateMap<Data.Target, DimTarget>();                
         }
 
         private static Metrics MapMetrics(XElement elements)

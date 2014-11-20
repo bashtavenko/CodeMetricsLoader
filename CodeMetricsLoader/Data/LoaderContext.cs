@@ -34,14 +34,11 @@ namespace CodeMetricsLoader.Data
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
-            
-            
-
             
             modelBuilder.Entity<DimTarget>().HasKey(k => k.TargetId);
             modelBuilder.Entity<DimTarget>().Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);
             modelBuilder.Entity<DimTarget>().Property(k => k.Tag).HasColumnType("varchar").HasMaxLength(255);
+            modelBuilder.Entity<DimTarget>().Property(k => k.FileName).HasColumnType("varchar").HasMaxLength(255);
 
             modelBuilder.Entity<DimModule>().HasKey(k => k.ModuleId);
             modelBuilder.Entity<DimModule>().Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);

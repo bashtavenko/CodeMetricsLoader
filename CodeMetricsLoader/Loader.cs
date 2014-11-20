@@ -108,7 +108,9 @@ namespace CodeMetricsLoader
             FactMetrics factMetrics;
             foreach (var target in targets)
             {
-                var dimTarget = GetOrAddEntity<DimTarget>(_context.Targets, new DimTarget { Tag = tag, Name = target.Name }, delegate(DimTarget t) { return t.Tag == tag && t.Name == target.Name; });
+                var dimTarget = Mapper.Map<DimTarget>(target);
+                dimTarget.Tag = tag;
+                dimTarget = GetOrAddEntity<DimTarget>(_context.Targets, dimTarget, delegate(DimTarget t) { return t.Tag == tag && t.FileName == target.FileName; });
                 foreach (var module in target.Modules)
                 {
                     var dimModule = Mapper.Map<DimModule>(module);

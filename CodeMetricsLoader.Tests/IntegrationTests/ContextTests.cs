@@ -36,10 +36,11 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         {
             var target = new DimTarget
             {
-                Tag = "prog-master",
-                Name = @"C:\My\Src\inbound-services\WebServices.Inbound\bin\Debug\WebServices.Inbound.dll",                
+                Name = @"C:\My\Src\inbound-services\WebServices.Inbound\bin\Debug\WebServices.Inbound.dll",
+                FileName = "WebServices.Inbound.dll",
+                Tag = "prog-master"
             };
-
+                        
             var module = new DimModule
             {
                 Name = "WebServices.Inbound",

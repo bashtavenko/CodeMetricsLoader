@@ -4,7 +4,8 @@ namespace CodeMetricsLoader.Data
 {
     public class Target
     {        
-        public string Name { get; set; }        
+        public string Name { get; set; }
+        public string FileName { get { return System.IO.Path.GetFileName(Name); } }
         public virtual List<Module> Modules { get; set; }
 
         public Target()
