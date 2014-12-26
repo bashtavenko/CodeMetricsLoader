@@ -160,19 +160,17 @@ namespace CodeMetricsLoader
         /// <returns>Newly added entity of entity from database</returns>
         private T GetOrAddEntity<T>(DbSet<T> list, T src, Func<T, bool> where) where T : class
         {
-            IEnumerable<T> srcFromDb = list
-                .Where(where)
-                .Take(2);
+            IEnumerable<T> srcFromDb = list.Where(where);               
 
-            if (srcFromDb != null && srcFromDb.Count() == 1)
-            {
-                return srcFromDb.First();
-            }
-            else
+            if (srcFromDb != null && srcFromDb.Count() == 0)
             {
                 list.Add(src);
                 _context.SaveChanges();
                 return src;
+            }
+            else
+            {
+                return srcFromDb.First();                
             }
         }
                 
