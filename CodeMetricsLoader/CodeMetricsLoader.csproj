@@ -82,6 +82,13 @@
     <Compile Include="Data\DimNamespace.cs" />
     <Compile Include="Data\DimType.cs" />
     <Compile Include="Data\DimMember.cs" />
+    <Compile Include="Data\Maps\DimDateConfiguration.cs" />
+    <Compile Include="Data\Maps\DimMemberConfiguration.cs" />
+    <Compile Include="Data\Maps\DimModuleConfiguration.cs" />
+    <Compile Include="Data\Maps\DimNamespaceConfiguration.cs" />
+    <Compile Include="Data\Maps\DimTargetConfiguration.cs" />
+    <Compile Include="Data\Maps\DimTypeConfiguration.cs" />
+    <Compile Include="Data\Maps\FactMetricsConfiguration.cs" />
     <Compile Include="LoaderConfiguration.cs" />
     <Compile Include="LoaderException.cs" />
     <Compile Include="Data\DimDate.cs" />

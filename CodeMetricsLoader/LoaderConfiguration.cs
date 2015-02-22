@@ -14,7 +14,7 @@ namespace CodeMetricsLoader
         [Option('c', "connection", Required = false, HelpText = "Connection string")]
         public string ConnectionString { get; set; }
 
-        [Option('d', "datetime", Required = false, DefaultValue = false, HelpText = "Use data and time for date dimension")]
+        [Option('d', "datetime", Required = false, DefaultValue = false, HelpText = "Use date and time for date dimension")]
         public bool UseDateAndTime { get; set; }
 
         [ParserState]

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 
 using AutoMapper;
@@ -32,6 +34,7 @@ namespace CodeMetricsLoader
         /// </summary>
         /// <param name="elements">Root node of the metrics tree</param>
         /// <param name="tag">Optional build or repository tag</param>
+        /// <param name="useDateTime">Use both date and time</param>
         public void Load(XElement elements, string tag, bool useDateTime)
         {
             List<Target> targets = MapXmlToEntities(elements);
@@ -98,55 +101,79 @@ namespace CodeMetricsLoader
         /// </summary>
         /// <param name="targets">DTOs to save</param>
         /// <param name="tag">Tag name</param>
+        /// <param name="useDateTime">Use both date and time</param>
         public void SaveTargets(List<Target> targets, string tag, bool useDateTime)
         {
             var dimDate = new DimDate();
+
+            if (HaveDataForThisDate(tag, dimDate.Date))
+            {
+                _logger.Log("Already have data for this tag and date");
+                return;
+            }
+
             if (!useDateTime)            
             {
-                dimDate = GetOrAddEntity<DimDate>(_context.Dates, dimDate, delegate(DimDate d) { return d.Date == dimDate.Date;});
+                dimDate = GetOrAddEntity(_context.Dates, dimDate, d => d.Date.Date == dimDate.Date);
             }
             FactMetrics factMetrics;
             foreach (var target in targets)
             {
                 var dimTarget = Mapper.Map<DimTarget>(target);
                 dimTarget.Tag = tag;
-                dimTarget = GetOrAddEntity<DimTarget>(_context.Targets, dimTarget, delegate(DimTarget t) { return t.Tag == tag && t.FileName == target.FileName; });
+                dimTarget = GetOrAddEntity(_context.Targets, dimTarget, t => t.Tag == tag && t.FileName == target.FileName);
                 foreach (var module in target.Modules)
                 {
                     var dimModule = Mapper.Map<DimModule>(module);
-                    dimModule.TargetId = dimTarget.TargetId;
-                    dimModule = GetOrAddEntity<DimModule>(_context.Modules, dimModule, delegate(DimModule m) { return m.Name == dimModule.Name && m.TargetId == dimModule.TargetId; });
+                    dimModule = GetOrAddEntity(_context.Modules, dimModule, m => m.Name == dimModule.Name);
+                    dimModule.Targets.Add(dimTarget);
                     factMetrics = Mapper.Map<FactMetrics>(module.Metrics);
-                    factMetrics.Module = dimModule;
-                    InsertMetrics(factMetrics, dimDate);                                                                      
+                    InsertMetrics(factMetrics, dimDate, dimModule, null, null, null);                                                                      
                     foreach (var ns in module.Namespaces)
                     {
                         var dimNamespace = Mapper.Map<DimNamespace>(ns);
-                        dimNamespace.ModuleId = dimModule.ModuleId;
-                        dimNamespace = GetOrAddEntity<DimNamespace>(_context.Namespaces, dimNamespace, delegate(DimNamespace n) { return n.Name == dimNamespace.Name && n.ModuleId == dimNamespace.ModuleId; });
+                        dimNamespace = GetOrAddEntity(_context.Namespaces, dimNamespace, n => n.Name == dimNamespace.Name);
+                        dimNamespace.Modules.Add(dimModule);
                         factMetrics = Mapper.Map<FactMetrics>(ns.Metrics);
-                        factMetrics.Namespace = dimNamespace;
-                        InsertMetrics(factMetrics, dimDate);
+                        InsertMetrics(factMetrics, dimDate, dimModule, dimNamespace, null, null);
                         foreach (var type in ns.Types)
                         {
                             var dimType = Mapper.Map<DimType>(type);
-                            dimType.NamespaceId = dimNamespace.NamespaceId;                            
-                            dimType = GetOrAddEntity<DimType>(_context.Types, dimType, delegate(DimType t) { return t.Name == dimType.Name && t.NamespaceId == dimType.NamespaceId; });
+                            dimType = GetOrAddEntity(_context.Types, dimType, t => t.Name == dimType.Name);
+                            dimType.Namespaces.Add(dimNamespace);
                             factMetrics = Mapper.Map<FactMetrics>(type.Metrics);
-                            factMetrics.Type = dimType;
-                            InsertMetrics(factMetrics, dimDate);                            
+                            InsertMetrics(factMetrics, dimDate, dimModule, dimNamespace, dimType, null);                            
                             foreach (var member in type.Members)
                             {
                                 var dimMember = Mapper.Map<DimMember>(member);
-                                dimMember.TypeId = dimType.TypeId;
-                                dimMember = GetOrAddEntity<DimMember>(_context.Members, dimMember, delegate(DimMember m) { return m.Name == dimMember.Name && m.TypeId == dimMember.TypeId; });
+                                dimMember = GetOrAddEntity(_context.Members, dimMember, m => m.Name == dimMember.Name);
+                                dimMember.Types.Add(dimType);
                                 factMetrics = Mapper.Map<FactMetrics>(member.Metrics);
                                 factMetrics.Member = dimMember;
-                                InsertMetrics(factMetrics, dimDate);                                                
+                                InsertMetrics(factMetrics, dimDate, dimModule, dimNamespace, dimType, dimMember);                                                
                             }                    
                         }
                     }
                 }
+            }
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var sb = new StringBuilder("Failed to save\n");
+                foreach (var entity in ex.EntityValidationErrors)
+                {
+                    sb.AppendLine(string.Format("Entity: {0}", entity.Entry.Entity));
+                    foreach (var error in entity.ValidationErrors)
+                    {
+                        sb.AppendLine(string.Format("Property: {0}", error.PropertyName));
+                        sb.AppendLine(string.Format("Error: {0}", error.ErrorMessage));
+                    }
+                    sb.AppendLine();
+                }
+                throw new ApplicationException(sb.ToString(), ex);
             }
         }      
 
@@ -158,33 +185,46 @@ namespace CodeMetricsLoader
         /// <param name="src">Entity itself</param>
         /// <param name="where">Where clause used to search for this entity</param>
         /// <returns>Newly added entity of entity from database</returns>
-        private T GetOrAddEntity<T>(DbSet<T> list, T src, Func<T, bool> where) where T : class
+        private static T GetOrAddEntity<T>(DbSet<T> list, T src, Func<T, bool> where) where T : class
         {
-            IEnumerable<T> srcFromDb = list.Where(where);               
+            var srcFromDb = list.Local.FirstOrDefault(where); // .Local means we'll get unsaved entities
 
-            if (srcFromDb != null && srcFromDb.Count() == 0)
+            if (srcFromDb == null)
             {
-                list.Add(src);
-                _context.SaveChanges();
-                return src;
+                srcFromDb = list.FirstOrDefault(where); // Maybe it was saved before
+                if (srcFromDb == null)
+                {
+                    list.Add(src);
+                    return src;
+                }
+                else
+                {
+                    return srcFromDb;
+                }
             }
             else
             {
-                return srcFromDb.First();                
+                return srcFromDb;
             }
         }
-                
-        /// <summary>
-        /// Inserts fact for the give date. It is assumed that facMetrics's corresponsing member (Type, Module, Namespace) has
-        /// already been set.
-        /// </summary>
-        /// <param name="factMetrics">Fact metric to insert</param>
-        /// <param name="dimDate">Date dimension</param>
-        private void InsertMetrics(FactMetrics factMetrics, DimDate dimDate)
+        
+        private void InsertMetrics(FactMetrics factMetrics, DimDate date, DimModule module, DimNamespace ns, DimType type, DimMember member)
         {
-            factMetrics.Date = dimDate;
+            factMetrics.Date = date;
+            factMetrics.Module = module;
+            factMetrics.Namespace = ns;
+            factMetrics.Type = type;
+            factMetrics.Member = member;
             _context.Metrics.Add(factMetrics);
-            _context.SaveChanges();
+        }
+
+        private bool HaveDataForThisDate(string tag, DateTime date)
+        {
+            return _context.Targets
+                .SelectMany(s => s.Modules, (t, m) => new {Tag = t.Tag, Module = m})
+                .Where(w => w.Tag.Equals(tag, StringComparison.InvariantCultureIgnoreCase))
+                .SelectMany(x => x.Module.Metrics)
+                .Any(w => w.Date.DateTime == date);
         }
     }
 }

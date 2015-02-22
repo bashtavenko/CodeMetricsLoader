@@ -55,7 +55,7 @@ namespace CodeMetricsLoader
                 .ForMember(m => m.Metrics, opt => opt.Ignore());
 
             Mapper.CreateMap<Data.Member, DimMember>()
-                .ForMember(m => m.Type, opt => opt.Ignore())
+                .ForMember(m => m.Types, opt => opt.Ignore())
                 .ForMember(m => m.Metrics, opt => opt.Ignore());
 
             Mapper.CreateMap<Data.Target, DimTarget>();                

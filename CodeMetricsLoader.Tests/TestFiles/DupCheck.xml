@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeMetricsReport Version="12.0">
+  <Targets>
+    <Target Name="C:\My\Src\inbound-services\WebServices\bin\Debug\WebServices.dll">
+      <Modules>
+        <Module Name="WebServices.dll" AssemblyVersion="1.0.0.0" FileVersion="1.0.0.0">
+          <Metrics>
+            <Metric Name="MaintainabilityIndex" Value="94" />
+            <Metric Name="CyclomaticComplexity" Value="112" />
+            <Metric Name="ClassCoupling" Value="21" />
+            <Metric Name="DepthOfInheritance" Value="1" />
+            <Metric Name="LinesOfCode" Value="112" />
+          </Metrics>
+          <Namespaces>
+            <Namespace Name="WebServices.Inbound">
+              <Metrics>
+                <Metric Name="MaintainabilityIndex" Value="98" />
+                <Metric Name="CyclomaticComplexity" Value="1" />
+                <Metric Name="ClassCoupling" Value="0" />
+                <Metric Name="DepthOfInheritance" Value="1" />
+                <Metric Name="LinesOfCode" Value="1" />
+              </Metrics>
+              <Types>
+                <Type Name="AccountDetails">
+                  <Metrics>
+                    <Metric Name="MaintainabilityIndex" Value="98" />
+                    <Metric Name="CyclomaticComplexity" Value="1" />
+                    <Metric Name="ClassCoupling" Value="0" />
+                    <Metric Name="DepthOfInheritance" Value="1" />
+                    <Metric Name="LinesOfCode" Value="1" />
+                  </Metrics>
+                  <Members>
+                    <Member Name="Label.get() : string">
+                      <Metrics>
+                        <Metric Name="MaintainabilityIndex" Value="98" />
+                        <Metric Name="CyclomaticComplexity" Value="1" />
+                        <Metric Name="ClassCoupling" Value="0" />
+                        <Metric Name="LinesOfCode" Value="1" />
+                      </Metrics>
+                    </Member>
+                  </Members>
+                </Type>
+              </Types>
+            </Namespace>
+            <Namespace Name="WebServices.Outbound">
+                  <Metrics>
+                      <Metric Name="MaintainabilityIndex" Value="20" />
+                      <Metric Name="CyclomaticComplexity" Value="12" />
+                      <Metric Name="ClassCoupling" Value="2" />
+                      <Metric Name="DepthOfInheritance" Value="2" />
+                      <Metric Name="LinesOfCode" Value="10" />
+                  </Metrics>
+                  <Types>
+                      <Type Name="AccountDetails">
+                          <Metrics>
+                              <Metric Name="MaintainabilityIndex" Value="20" />
+                              <Metric Name="CyclomaticComplexity" Value="12" />
+                              <Metric Name="ClassCoupling" Value="2" />
+                              <Metric Name="DepthOfInheritance" Value="2" />
+                              <Metric Name="LinesOfCode" Value="10" />
+                          </Metrics>
+                          <Members>
+                              <Member Name="Label.get() : string">
+                                  <Metrics>
+                                      <Metric Name="MaintainabilityIndex" Value="20" />
+                                      <Metric Name="CyclomaticComplexity" Value="12" />
+                                      <Metric Name="ClassCoupling" Value="2" />
+                                      <Metric Name="LinesOfCode" Value="10" />
+                                  </Metrics>
+                              </Member>
+                          </Members>
+                      </Type>
+                  </Types>
+              </Namespace>
+          </Namespaces>
+        </Module>
+      </Modules>
+    </Target>
+  </Targets>
+</CodeMetricsReport>

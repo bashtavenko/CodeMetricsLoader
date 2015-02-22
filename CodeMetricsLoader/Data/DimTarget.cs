@@ -11,7 +11,7 @@ namespace CodeMetricsLoader.Data
         public virtual List<DimModule> Modules { get; set; }
 
         public DimTarget()
-        {            
+        {
             Modules = new List<DimModule>();
         }
     }

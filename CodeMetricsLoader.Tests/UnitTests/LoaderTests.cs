@@ -54,14 +54,19 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.IsTrue(metrics.ClassCoupling > 0 || metrics.CyclomaticComplexity > 0 ||
                 metrics.DepthOfInheritance > 0 || metrics.LinesOfCode > 0 ||
                 metrics.MaintainabilityIndex > 0);
-        }        
+        }
+
+        public static XElement LoadXml(string fileName)
+        {
+            return LoadXmlInternal(fileName);
+        }
 
         public static XElement LoadXml()
         {
-            return LoadXml("CodeMetricsResult.xml");            
+            return LoadXmlInternal("CodeMetricsResult.xml");            
         }
 
-        private static XElement LoadXml(string fileName)
+        private static XElement LoadXmlInternal(string fileName)
         {
             using (StreamReader sr = new StreamReader(Path.Combine("..\\..\\TestFiles\\", fileName)))
             {

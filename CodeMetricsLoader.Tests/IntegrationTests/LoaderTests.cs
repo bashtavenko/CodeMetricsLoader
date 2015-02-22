@@ -28,15 +28,45 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Assert.AreEqual(1, testContext.Targets.Count());
                 Assert.AreEqual(1, testContext.Namespaces.Count());
                 Assert.AreEqual(16, testContext.Types.Count());
-                Assert.AreEqual(112, testContext.Members.Count());
+                Assert.AreEqual(56, testContext.Members.Count());
 
-                var metricsFromDb = testContext.Metrics.Where(m => m.Namespace.Name == "WebServices.Inbound").First();
+                var metricsFromDb = testContext.Metrics.FirstOrDefault(m => m.Namespace.Name == "WebServices.Inbound");
                 Assert.IsNotNull(metricsFromDb);
                 Assert.AreEqual(94, metricsFromDb.MaintainabilityIndex);
                 Assert.AreEqual(112, metricsFromDb.CyclomaticComplexity);
                 Assert.AreEqual(21, metricsFromDb.ClassCoupling);
                 Assert.AreEqual(1, metricsFromDb.DepthOfInheritance);
                 Assert.AreEqual(112, metricsFromDb.LinesOfCode);
+            }
+        }
+
+        [Test]
+        public void Loader_Load_CanSaveXmlWithDups()
+        {
+            using (LoaderContext context = ContextTests.CreateTestContext())
+            {
+                Loader loader = new Loader(context, new TestLogger());
+
+                XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
+                loader.Load(metrics, "master", true);
+            }
+
+            using (LoaderContext context = ContextTests.CreateTestContext())
+            {
+                Loader loader = new Loader(context, new TestLogger());
+
+                XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
+                loader.Load(metrics, "master", true);
+            }
+
+            using (LoaderContext testContext = ContextTests.CreateTestContext())
+            {
+                Assert.AreEqual(14, testContext.Metrics.Count());
+                Assert.AreEqual(2, testContext.Dates.Count());
+                Assert.AreEqual(1, testContext.Targets.Count());
+                Assert.AreEqual(2, testContext.Namespaces.Count());
+                Assert.AreEqual(1, testContext.Types.Count());
+                Assert.AreEqual(1, testContext.Members.Count());
             }
         }
 

@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestFiles\DupCheck.xml" />
     <Content Include="TestFiles\NumbersWithCommas.xml" />
     <Content Include="TestFiles\CodeMetricsResult.xml" />
   </ItemGroup>
