@@ -41,16 +41,13 @@ then LocalDb will be used (LocalDb)\v11.0
 
 ```
 -- Top 10 worst methods
-select top 10 dm.Name, fm.MaintainabilityIndex, fm.CyclomaticComplexity, fm.ClassCoupling,     fm.DepthOfInheritance, fm.LinesOfCode
- from FactMetrics fm
+select top 10 dm.Name, fm.MaintainabilityIndex, fm.CyclomaticComplexity, fm.LinesOfCode
+from FactMetrics fm
 join DimDate dd on dd.DateId = fm.DateId
 join DimMember dm on dm.MemberId = fm.MemberId
-join DimType dt on dt.TypeId = dm.TypeId
-join DimNamespace dn on dn.NamespaceId = dt.NamespaceId
-join DimModule dmo on dmo.ModuleId = dn.NamespaceId
-where dmo.Name like '%WebServices.dll
-and dd.DayOfMonth = 7
-order by fm.MaintainabilityIndex
+join DimModule dmo on dmo.ModuleId = fm.ModuleId
+where dmo.Name like '%WebServices.dll' and dd.DayOfMonth = 25
+order by fm.MaintainabilityIndex desc
 
 
 -- Module over time
