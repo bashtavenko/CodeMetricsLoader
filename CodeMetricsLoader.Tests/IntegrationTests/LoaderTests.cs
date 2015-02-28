@@ -13,12 +13,12 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void Loader_Load_CanSaveXml()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext())
+            using (LoaderContext context = ContextTests.CreateTestContext(true))
             {
                 Loader loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml();
-                loader.Load(metrics, "master", false);
+                loader.Load(metrics, null, "master", false);
             }
 
             using (LoaderContext testContext = ContextTests.CreateTestContext())
@@ -40,15 +40,15 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
             }
         }
 
-        [Test]
+        //[Test]
         public void Loader_Load_CanSaveXmlWithDups()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext())
+            using (LoaderContext context = ContextTests.CreateTestContext(true))
             {
                 Loader loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
-                loader.Load(metrics, "master", true);
+                loader.Load(metrics, null, "master", true);
             }
 
             using (LoaderContext context = ContextTests.CreateTestContext())
@@ -56,7 +56,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Loader loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
-                loader.Load(metrics, "master", true);
+                loader.Load(metrics, null, "master", true);
             }
 
             using (LoaderContext testContext = ContextTests.CreateTestContext())
@@ -73,15 +73,32 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void Loader_Load_CanSaveTheSameXmlTwice()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext())
+            using (LoaderContext context = ContextTests.CreateTestContext(true))
             {
 
                 var loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml();
-                loader.Load(metrics, "master", false);
-                loader.Load(metrics, "master", false);
-                // ..no easy way to assert since database is not being drop when run multiple tests in the same class
+                loader.Load(metrics, null, "master", false);
+                loader.Load(metrics, null, "master", false);
+                
+                // TODO: Assert
+            }
+        }
+
+        [Test]
+        public void Loader_LoadMetricsAndCodeCoverage()
+        {
+            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            {
+
+                var loader = new Loader(context, new TestLogger());
+
+                XElement metrics = UnitTests.LoaderTests.LoadXml("metrics-A.xml");
+                XElement codeCoverage = UnitTests.LoaderTests.LoadXml("codecoverage-A.xml");
+                loader.Load(metrics, codeCoverage, "master", false);
+
+                // TODO: Assert
             }
         }
     }

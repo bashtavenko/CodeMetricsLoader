@@ -27,7 +27,7 @@ namespace CodeMetricsLoader.Tests.UnitTests
         [Test]
         public void Loader_MapXml_Regular()
         {
-            List<Target> targets = _loader.MapXmlToEntities(_elements);
+            List<Target> targets = _loader.MapMetricsXmlToEntities(_elements);
             Assert.AreEqual(1, targets.Count);
             var target = targets[0];
             Assert.IsNotEmpty(target.Name);
@@ -60,6 +60,7 @@ namespace CodeMetricsLoader.Tests.UnitTests
         {
             return LoadXmlInternal(fileName);
         }
+        
 
         public static XElement LoadXml()
         {

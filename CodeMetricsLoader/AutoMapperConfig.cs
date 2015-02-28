@@ -16,25 +16,30 @@ namespace CodeMetricsLoader
                 .ConvertUsing(src => MapMetrics(src));
             
             Mapper.CreateMap<XElement, Target>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")));
+                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
+                .ForMember(m => m.Value, opt => opt.Ignore());
 
             Mapper.CreateMap<XElement, Data.Module>()
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
                 .ForMember(m => m.FileVersion, opt => opt.MapFrom(src => GetStringAttribute(src, "FileVersion")))
                 .ForMember(m => m.AssemblyVersion, opt => opt.MapFrom(src => GetStringAttribute(src, "AssemblyVersion")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
+                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
+                .ForMember(m => m.Value, opt => opt.Ignore());
 
             Mapper.CreateMap<XElement, Namespace>()
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
+                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
+                .ForMember(m => m.Value, opt => opt.Ignore());
 
             Mapper.CreateMap<XElement, Data.Type>()
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
+                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
+                .ForMember(m => m.Value, opt => opt.Ignore());
 
             Mapper.CreateMap<XElement, Member>()
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))                
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))));
+                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
+                .ForMember(m => m.Value, opt => opt.Ignore());
 
             Mapper.CreateMap<Metrics, FactMetrics>()
                 .ForMember(m => m.Module, opt => opt.Ignore())

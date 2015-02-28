@@ -32,19 +32,34 @@ namespace CodeMetricsLoader
                         
             try
             {
-                XElement elements;
-                using (StreamReader sr = new StreamReader(config.FilePath))
-                { 
-                    string xml = sr.ReadToEnd();
-                    elements = XElement.Parse(xml);
+                XElement metricsElements = null, codeCoverageElements = null;
+                if (!string.IsNullOrEmpty(config.MetricsFilePath))
+                {
+                    metricsElements = GetXml(config.MetricsFilePath);
                 }
 
-                loader.Load(elements, config.Tag, false);
+                if (!string.IsNullOrEmpty(config.CodeCoverageFilePath))
+                {
+                    codeCoverageElements = GetXml(config.CodeCoverageFilePath);
+                }
+
+                loader.Load(metricsElements, codeCoverageElements, config.Tag, false);
             }
             catch (Exception ex)
             {
                 logger.Log(ex.Message);
             }            
+        }
+
+        private static XElement GetXml(string filePath)
+        {
+            XElement elements;
+            using (var sr = new StreamReader(filePath))
+            {
+                string xml = sr.ReadToEnd();
+                elements = XElement.Parse(xml);
+            }
+            return elements;
         }
     }
 }

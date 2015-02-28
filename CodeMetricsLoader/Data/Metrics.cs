@@ -7,5 +7,6 @@
         public int ClassCoupling { get; set; }
         public int DepthOfInheritance { get; set; }
         public int LinesOfCode { get; set; }        
+        public int? CodeCoverage { get; set; }        
     }
 }

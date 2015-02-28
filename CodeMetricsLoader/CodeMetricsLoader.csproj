@@ -76,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
+    <Compile Include="CodeCoverage\MergeMode.cs" />
+    <Compile Include="CodeCoverage\Merger.cs" />
+    <Compile Include="CodeCoverage\MergeStats.cs" />
     <Compile Include="Data\FactMetrics.cs" />
     <Compile Include="Data\DimTarget.cs" />
     <Compile Include="Data\DimModule.cs" />
@@ -89,6 +92,9 @@
     <Compile Include="Data\Maps\DimTargetConfiguration.cs" />
     <Compile Include="Data\Maps\DimTypeConfiguration.cs" />
     <Compile Include="Data\Maps\FactMetricsConfiguration.cs" />
+    <Compile Include="CodeCoverage\Tree.cs" />
+    <Compile Include="Data\MergeStatus.cs" />
+    <Compile Include="Data\Node.cs" />
     <Compile Include="LoaderConfiguration.cs" />
     <Compile Include="LoaderException.cs" />
     <Compile Include="Data\DimDate.cs" />
@@ -101,8 +107,11 @@
     <Compile Include="Data\Type.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="CodeCoverage\MethodConverter.cs" />
+    <Compile Include="CodeCoverage\OpenCoverParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CodeCoverage\OpenCoverType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

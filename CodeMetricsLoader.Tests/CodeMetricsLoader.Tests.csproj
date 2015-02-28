@@ -61,14 +61,28 @@
   <ItemGroup>
     <Compile Include="IntegrationTests\ContextTests.cs" />
     <Compile Include="IntegrationTests\LoaderTests.cs" />
+    <Compile Include="UnitTests\OpenCoverTypeTests.cs" />
     <Compile Include="TestLogger.cs" />
     <Compile Include="UnitTests\LoaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\MethodConverterTests.cs" />
+    <Compile Include="UnitTests\MergerTests.cs" />
+    <Compile Include="UnitTests\NodeTests.cs" />
+    <Compile Include="UnitTests\OpenCoverParserTests.cs" />
+    <Compile Include="UnitTests\TestNode.cs" />
+    <Compile Include="UnitTests\TreeTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestFiles\codecoverage-A.xml" />
+    <Content Include="TestFiles\codecoverage-big.xml" />
+    <Content Include="TestFiles\codecoverage.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="TestFiles\DupCheck.xml" />
+    <Content Include="TestFiles\metrics-A.xml" />
     <Content Include="TestFiles\NumbersWithCommas.xml" />
     <Content Include="TestFiles\CodeMetricsResult.xml" />
+    <Content Include="TestFiles\realfile.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeMetricsLoader\CodeMetricsLoader.csproj">

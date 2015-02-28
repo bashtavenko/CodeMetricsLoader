@@ -7,7 +7,7 @@ using System.Text;
 using System.Xml.Linq;
 
 using AutoMapper;
-
+using CodeMetricsLoader.CodeCoverage;
 using CodeMetricsLoader.Data;
 
 namespace CodeMetricsLoader
@@ -32,12 +32,31 @@ namespace CodeMetricsLoader
         /// <summary>
         /// Load metrics from xml and save them to database
         /// </summary>
-        /// <param name="elements">Root node of the metrics tree</param>
+        /// <param name="metricsElements"></param>
+        /// <param name="codeCoverageElements"></param>
         /// <param name="tag">Optional build or repository tag</param>
         /// <param name="useDateTime">Use both date and time</param>
-        public void Load(XElement elements, string tag, bool useDateTime)
+        public void Load(XElement metricsElements, XElement codeCoverageElements, string tag, bool useDateTime)
         {
-            List<Target> targets = MapXmlToEntities(elements);
+            if (metricsElements == null)
+            {
+                throw new ArgumentException("Must have metrics");
+            }
+            IList<Target> targets;
+            List<Target> metricsTargets = MapMetricsXmlToEntities(metricsElements);
+            
+            if (codeCoverageElements != null)
+            {
+                var parser = new OpenCoverParser();
+                List<Target> codeCoverageTargets = parser.Parse(codeCoverageElements);
+                var merger = new Merger();
+                targets = merger.Merge(metricsTargets, codeCoverageTargets, _logger);
+            }
+            else 
+            {
+                targets = metricsTargets;
+            }
+            
             _logger.Log("Saving to database...");
             SaveTargets(targets, tag, useDateTime);
             _logger.Log("Done.");
@@ -48,7 +67,7 @@ namespace CodeMetricsLoader
         /// </summary>
         /// <param name="elements">metric xml nodes</param>        
         /// <returns>Collection of DTOs</returns>
-        public List<Target> MapXmlToEntities(XElement elements)
+        public List<Target> MapMetricsXmlToEntities(XElement elements)
         {   
             if (elements == null || elements.Elements().Count() != 1)
             {
@@ -95,6 +114,7 @@ namespace CodeMetricsLoader
 
             return targets;
         }
+        
 
         /// <summary>
         /// Save DTOs to database
@@ -102,7 +122,7 @@ namespace CodeMetricsLoader
         /// <param name="targets">DTOs to save</param>
         /// <param name="tag">Tag name</param>
         /// <param name="useDateTime">Use both date and time</param>
-        public void SaveTargets(List<Target> targets, string tag, bool useDateTime)
+        public void SaveTargets(IList<Target> targets, string tag, bool useDateTime)
         {
             var dimDate = new DimDate();
 

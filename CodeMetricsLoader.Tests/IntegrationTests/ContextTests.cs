@@ -14,15 +14,24 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         private LoaderContext _context;
         private static string _databaseName = "CodeMetricsLoaderWarehouseTEST2";
 
-        public static LoaderContext CreateTestContext()
+        public static LoaderContext CreateTestContext(bool deleteDatabase = false)
         {
-            return new LoaderContext(_databaseName, new DropCreateDatabaseAlways<LoaderContext>());            
+            if (deleteDatabase)
+            {
+                var context = new LoaderContext(_databaseName, new DropCreateDatabaseAlways<LoaderContext>());
+                context.Database.Delete();
+                return new LoaderContext(_databaseName, new DropCreateDatabaseAlways<LoaderContext>());
+            }
+            else
+            {
+                return new LoaderContext(_databaseName, null);    
+            }
         }
 
         [TestFixtureSetUp]
         public void Setup()
         {
-            _context = CreateTestContext();
+            _context = CreateTestContext(true);
         }
 
         [Test]
