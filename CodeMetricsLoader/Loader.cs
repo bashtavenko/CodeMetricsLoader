@@ -244,7 +244,7 @@ namespace CodeMetricsLoader
                 .SelectMany(s => s.Modules, (t, m) => new {Tag = t.Tag, Module = m})
                 .Where(w => w.Tag.Equals(tag, StringComparison.InvariantCultureIgnoreCase))
                 .SelectMany(x => x.Module.Metrics)
-                .Any(w => w.Date.DateTime == date);
+                .Any(w => w.Date.Date == date);
         }
     }
 }
