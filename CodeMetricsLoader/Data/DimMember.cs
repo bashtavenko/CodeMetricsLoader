@@ -9,6 +9,7 @@ namespace CodeMetricsLoader.Data
         public virtual List<DimType> Types { get; set; }
         public string File { get; set; }
         public int? Line { get; set; }
+        public string FileName { get { return System.IO.Path.GetFileName(File); } }
         public virtual List<FactMetrics> Metrics { get; set; }
 
         public DimMember()

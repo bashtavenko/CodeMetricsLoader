@@ -28,7 +28,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Assert.AreEqual(1, testContext.Targets.Count());
                 Assert.AreEqual(1, testContext.Namespaces.Count());
                 Assert.AreEqual(16, testContext.Types.Count());
-                Assert.AreEqual(56, testContext.Members.Count());
+                Assert.AreEqual(62, testContext.Members.Count());
 
                 var metricsFromDb = testContext.Metrics.FirstOrDefault(m => m.Namespace.Name == "WebServices.Inbound");
                 Assert.IsNotNull(metricsFromDb);
@@ -37,6 +37,16 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Assert.AreEqual(21, metricsFromDb.ClassCoupling);
                 Assert.AreEqual(1, metricsFromDb.DepthOfInheritance);
                 Assert.AreEqual(112, metricsFromDb.LinesOfCode);
+
+
+                var type = testContext.Types.SingleOrDefault(t => t.Name == "QpayService");
+                Assert.IsNotNull(type);
+                Assert.That(type.Members.Count, Is.EqualTo(7));
+
+                var member = type.Members.SingleOrDefault(f => f.Name == "AccountLookup(AccountLookupRequest) : AccountLookupResponse");
+                Assert.IsNotNull(member);
+                Assert.That(member.Metrics.Count, Is.EqualTo(1));
+                Assert.IsNotNull(member.File);
             }
         }
 

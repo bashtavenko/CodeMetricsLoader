@@ -8,6 +8,8 @@ namespace CodeMetricsLoader.Data
         public Metrics Metrics { get; set; }
         public override IList<Node> Children { get { return new List<Node>(); }}
         public override string Key { get { return "Member-" + Name; } }
+        public string File { get; set; }
+        public int? Line { get; set; }
         
         public override int? Value
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 using NUnit.Framework;
@@ -54,6 +55,19 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.IsTrue(metrics.ClassCoupling > 0 || metrics.CyclomaticComplexity > 0 ||
                 metrics.DepthOfInheritance > 0 || metrics.LinesOfCode > 0 ||
                 metrics.MaintainabilityIndex > 0);
+
+            var testType = targets
+                .SelectMany(t => t.Modules)
+                .SelectMany(m => m.Namespaces)
+                .SelectMany(m => m.Types)
+                .SingleOrDefault(t => t.Name == "QpayService");
+            
+            Assert.IsNotNull(testType);
+
+            var testMember = testType.Members.SingleOrDefault(f => f.Name == "AccountLookup(AccountLookupRequest) : AccountLookupResponse");
+            Assert.IsNotNull(testMember);
+            Assert.IsNotNull(testMember.File);
+            Assert.IsNotNull(testMember.Line);
         }
 
         public static XElement LoadXml(string fileName)

@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestFiles\codecoverage-A.xml" />
-    <Content Include="TestFiles\codecoverage-big.xml" />
     <Content Include="TestFiles\codecoverage.xml">
       <SubType>Designer</SubType>
     </Content>

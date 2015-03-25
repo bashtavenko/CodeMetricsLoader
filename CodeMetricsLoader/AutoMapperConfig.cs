@@ -13,7 +13,7 @@ namespace CodeMetricsLoader
         public static void CreateMaps()
         {
             Mapper.CreateMap<XElement, Metrics>()
-                .ConvertUsing(src => MapMetrics(src));
+                .ConvertUsing(MapMetrics);
             
             Mapper.CreateMap<XElement, Target>()
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
@@ -39,6 +39,8 @@ namespace CodeMetricsLoader
             Mapper.CreateMap<XElement, Member>()
                 .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))                
                 .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
+                .ForMember(m => m.File, opt => opt.MapFrom(src => GetStringAttribute(src, "File")))
+                .ForMember(m => m.Line, opt => opt.MapFrom(src => GetNullableIntAttribute(src, "Line")))
                 .ForMember(m => m.Value, opt => opt.Ignore());
 
             Mapper.CreateMap<Metrics, FactMetrics>()

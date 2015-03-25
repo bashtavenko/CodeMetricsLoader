@@ -167,7 +167,8 @@ namespace CodeMetricsLoader
                             foreach (var member in type.Members)
                             {
                                 var dimMember = Mapper.Map<DimMember>(member);
-                                dimMember = GetOrAddEntity(_context.Members, dimMember, m => m.Name == dimMember.Name);
+                                dimMember = GetOrAddEntity(_context.Members, dimMember,
+                                    m => m.Name == dimMember.Name && m.FileName == dimMember.FileName && m.Line == dimMember.Line);
                                 dimMember.Types.Add(dimType);
                                 factMetrics = Mapper.Map<FactMetrics>(member.Metrics);
                                 factMetrics.Member = dimMember;
