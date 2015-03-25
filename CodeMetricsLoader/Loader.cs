@@ -125,13 +125,7 @@ namespace CodeMetricsLoader
         public void SaveTargets(IList<Target> targets, string tag, bool useDateTime)
         {
             var dimDate = new DimDate();
-
-            if (HaveDataForThisDate(tag, dimDate.Date))
-            {
-                _logger.Log("Already have data for this tag and date");
-                return;
-            }
-
+            
             if (!useDateTime)            
             {
                 dimDate = GetOrAddEntity(_context.Dates, dimDate, d => d.Date.Date == dimDate.Date);
@@ -144,6 +138,13 @@ namespace CodeMetricsLoader
                 dimTarget = GetOrAddEntity(_context.Targets, dimTarget, t => t.Tag == tag && t.FileName == target.FileName);
                 foreach (var module in target.Modules)
                 {
+                    // TODO: this won't work if module is used in multiple projects
+                    if (HaveDataForThisDate(module.Name, dimDate.Date))
+                    {
+                        _logger.Log(string.Format("Already have data for module {0} and this date", module.Name));
+                        continue;
+                    }
+
                     var dimModule = Mapper.Map<DimModule>(module);
                     dimModule = GetOrAddEntity(_context.Modules, dimModule, m => m.Name == dimModule.Name);
                     dimModule.Targets.Add(dimTarget);
@@ -238,13 +239,14 @@ namespace CodeMetricsLoader
             _context.Metrics.Add(factMetrics);
         }
 
-        private bool HaveDataForThisDate(string tag, DateTime date)
+        private bool HaveDataForThisDate(string moduleName, DateTime date)
         {
-            return _context.Targets
-                .SelectMany(s => s.Modules, (t, m) => new {Tag = t.Tag, Module = m})
-                .Where(w => w.Tag.Equals(tag, StringComparison.InvariantCultureIgnoreCase))
-                .SelectMany(x => x.Module.Metrics)
-                .Any(w => w.Date.Date == date);
+            return _context.Metrics
+                .Any(
+                    m =>
+                        m.Date.Date == date &&
+                        m.Module.Name.Equals(moduleName, StringComparison.InvariantCultureIgnoreCase));
+
         }
     }
 }
