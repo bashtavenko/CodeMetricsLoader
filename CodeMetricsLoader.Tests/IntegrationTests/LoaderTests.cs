@@ -37,8 +37,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Assert.AreEqual(21, metricsFromDb.ClassCoupling);
                 Assert.AreEqual(1, metricsFromDb.DepthOfInheritance);
                 Assert.AreEqual(112, metricsFromDb.LinesOfCode);
-
-
+                
                 var type = testContext.Types.SingleOrDefault(t => t.Name == "QpayService");
                 Assert.IsNotNull(type);
                 Assert.That(type.Members.Count, Is.EqualTo(7));
@@ -47,6 +46,15 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Assert.IsNotNull(member);
                 Assert.That(member.Metrics.Count, Is.EqualTo(1));
                 Assert.IsNotNull(member.File);
+
+                type = testContext.Types.SingleOrDefault(t => t.Name == "IQpayService");
+                Assert.IsNotNull(type);
+                Assert.That(type.Members.Count, Is.EqualTo(6));
+
+                member = type.Members.SingleOrDefault(f => f.Name == "AccountLookup(AccountLookupRequest) : AccountLookupResponse");
+                Assert.IsNotNull(member);
+                Assert.That(member.Metrics.Count, Is.EqualTo(1));
+                Assert.IsNull(member.File);
             }
         }
 

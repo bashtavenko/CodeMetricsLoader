@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CodeMetricsLoader.Data
 {
@@ -10,7 +11,7 @@ namespace CodeMetricsLoader.Data
         public override string Key { get { return "Member-" + Name; } }
         public string File { get; set; }
         public int? Line { get; set; }
-        public string FileName { get { return System.IO.Path.GetFileName(File); } }
+        public string FileName { get { return string.IsNullOrEmpty(File) ? null : Path.GetFileName(File); } }
         
         public override int? Value
         {
