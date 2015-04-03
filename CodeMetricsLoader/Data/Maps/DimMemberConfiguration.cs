@@ -7,7 +7,7 @@ namespace CodeMetricsLoader.Data.Maps
         public DimMemberConfiguration()
         {
            HasKey(k => k.MemberId);
-           Property(k => k.Name).HasColumnType("varchar").HasMaxLength(255);
+           Property(k => k.Name).HasColumnType("varchar").HasMaxLength(500);
         }
     }
 }

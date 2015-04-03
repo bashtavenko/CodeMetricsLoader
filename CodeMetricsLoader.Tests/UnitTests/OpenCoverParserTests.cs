@@ -71,21 +71,7 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.AreEqual("CreateMaps() : int", method.Name);
             Assert.AreEqual(30, method.Metrics.CodeCoverage);
         }
-
-        [Test]
-        public void Parse_RealFile()
-        {
-            // Arrange
-            //var elements = LoadXml("realfile.xml");
-            var elements = LoadXml("codecoverage-big.xml");
-
-            // Act
-            List<Target> targets = _parser.Parse(elements);
-
-            // Assert
-            Assert.IsNotNull(targets);
-        }
-
+        
         public static XElement LoadXml(string fileName)
         {
             return LoadXmlInternal(fileName);
