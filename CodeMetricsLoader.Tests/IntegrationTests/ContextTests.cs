@@ -12,7 +12,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
     public class ContextTests
     {
         private LoaderContext _context;
-        private static string _databaseName = "CodeMetricsLoaderWarehouseTEST2";
+        private static string _databaseName = "CodeMetricsLoaderWarehouseTEST";
 
         public static LoaderContext CreateTestContext(bool deleteDatabase = false)
         {

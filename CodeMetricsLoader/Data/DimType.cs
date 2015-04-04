@@ -13,6 +13,7 @@ namespace CodeMetricsLoader.Data
         public DimType()
         {
             Namespaces = new List<DimNamespace>();
+            Metrics = new List<FactMetrics>();
         }
     }
 }

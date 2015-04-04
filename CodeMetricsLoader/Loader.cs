@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -15,7 +16,8 @@ namespace CodeMetricsLoader
     public class Loader
     {
         private readonly LoaderContext _context;        
-        private readonly ILogger _logger;        
+        private readonly ILogger _logger;
+        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Loader"/> class
@@ -124,6 +126,8 @@ namespace CodeMetricsLoader
         /// <param name="useDateTime">Use both date and time</param>
         public void SaveTargets(IList<Target> targets, string tag, bool useDateTime)
         {
+            _context.Configuration.AutoDetectChangesEnabled = false;
+            
             var dimDate = new DimDate();
             
             if (!useDateTime)            
@@ -135,7 +139,8 @@ namespace CodeMetricsLoader
             {
                 var dimTarget = Mapper.Map<DimTarget>(target);
                 dimTarget.Tag = tag;
-                dimTarget = GetOrAddEntity(_context.Targets, dimTarget, t => t.Tag == tag && t.FileName == target.FileName);
+                string fileName = target.FileName;
+                dimTarget = GetOrAddEntity(_context.Targets, dimTarget, t => t.Tag == tag && t.FileName == fileName);
                 foreach (var module in target.Modules)
                 {
                     // TODO: this won't work if module is used in multiple projects
@@ -146,40 +151,59 @@ namespace CodeMetricsLoader
                     }
 
                     var dimModule = Mapper.Map<DimModule>(module);
-                    dimModule = GetOrAddEntity(_context.Modules, dimModule, m => m.Name == dimModule.Name);
+                    string moduleName = dimModule.Name;
+                    dimModule = GetOrAddEntity(_context.Modules, dimModule, m => m.Name == moduleName);
                     dimModule.Targets.Add(dimTarget);
                     factMetrics = Mapper.Map<FactMetrics>(module.Metrics);
-                    InsertMetrics(factMetrics, dimDate, dimModule, null, null, null);                                                                      
+                    factMetrics.Module = dimModule;
+                    factMetrics.Date = dimDate;
+                    dimModule.Metrics.Add(factMetrics);
                     foreach (var ns in module.Namespaces)
                     {
                         var dimNamespace = Mapper.Map<DimNamespace>(ns);
-                        dimNamespace = GetOrAddEntity(_context.Namespaces, dimNamespace, n => n.Name == dimNamespace.Name);
+                        string namespaceName = dimNamespace.Name;
+                        dimNamespace = GetOrAddEntity(_context.Namespaces, dimNamespace, n => n.Name == namespaceName);
                         dimNamespace.Modules.Add(dimModule);
                         factMetrics = Mapper.Map<FactMetrics>(ns.Metrics);
-                        InsertMetrics(factMetrics, dimDate, dimModule, dimNamespace, null, null);
+                        factMetrics.Module = dimModule;
+                        factMetrics.Namespace = dimNamespace;
+                        factMetrics.Date = dimDate;
+                        dimNamespace.Metrics.Add(factMetrics);
                         foreach (var type in ns.Types)
                         {
                             var dimType = Mapper.Map<DimType>(type);
-                            dimType = GetOrAddEntity(_context.Types, dimType, t => t.Name == dimType.Name);
+                            string typeName = dimType.Name;
+                            dimType = GetOrAddEntity(_context.Types, dimType, t => t.Name == typeName);
                             dimType.Namespaces.Add(dimNamespace);
                             factMetrics = Mapper.Map<FactMetrics>(type.Metrics);
-                            InsertMetrics(factMetrics, dimDate, dimModule, dimNamespace, dimType, null);                            
+                            factMetrics.Module = dimModule;
+                            factMetrics.Namespace = dimNamespace;
+                            factMetrics.Type = dimType;
+                            factMetrics.Date = dimDate;
+                            dimType.Metrics.Add(factMetrics);
                             foreach (var member in type.Members)
                             {
                                 var dimMember = Mapper.Map<DimMember>(member);
-                                dimMember = GetOrAddEntity(_context.Members, dimMember,
-                                    m => m.Name == dimMember.Name && m.File == dimMember.File && m.Line == dimMember.Line);
+                                string memberName = dimMember.Name;
+                                string memberFileName = dimMember.File;
+                                int? memberLine = dimMember.Line;
+                                dimMember = GetOrAddEntity(_context.Members, dimMember, m => m.Name == memberName && m.File == memberFileName && m.Line == memberLine);
                                 dimMember.Types.Add(dimType);
                                 factMetrics = Mapper.Map<FactMetrics>(member.Metrics);
+                                factMetrics.Module = dimModule;
+                                factMetrics.Namespace = dimNamespace;
+                                factMetrics.Type = dimType;
                                 factMetrics.Member = dimMember;
-                                InsertMetrics(factMetrics, dimDate, dimModule, dimNamespace, dimType, dimMember);                                                
-                            }                    
+                                factMetrics.Date = dimDate;
+                                dimMember.Metrics.Add(factMetrics);
+                            }
                         }
                     }
                 }
             }
             try
             {
+                _context.Configuration.AutoDetectChangesEnabled = true;
                 _context.SaveChanges();
             }
             catch (DbEntityValidationException ex)
@@ -229,25 +253,10 @@ namespace CodeMetricsLoader
                 return srcFromDb;
             }
         }
-        
-        private void InsertMetrics(FactMetrics factMetrics, DimDate date, DimModule module, DimNamespace ns, DimType type, DimMember member)
-        {
-            factMetrics.Date = date;
-            factMetrics.Module = module;
-            factMetrics.Namespace = ns;
-            factMetrics.Type = type;
-            factMetrics.Member = member;
-            _context.Metrics.Add(factMetrics);
-        }
 
         private bool HaveDataForThisDate(string moduleName, DateTime date)
         {
-            return _context.Metrics
-                .Any(
-                    m =>
-                        m.Date.Date == date &&
-                        m.Module.Name.Equals(moduleName, StringComparison.InvariantCultureIgnoreCase));
-
+            return _context.Metrics.Any(m => m.Date.Date == date && m.Module.Name.Equals(moduleName, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

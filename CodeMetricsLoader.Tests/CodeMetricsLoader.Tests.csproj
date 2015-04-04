@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.40\lib\net45\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -42,11 +45,14 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -60,6 +66,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="IntegrationTests\ContextTests.cs" />
+    <Compile Include="IntegrationTests\EndToEndTests.cs" />
+    <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\LoaderTests.cs" />
     <Compile Include="UnitTests\OpenCoverTypeTests.cs" />
     <Compile Include="TestLogger.cs" />
@@ -78,7 +86,10 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="TestFiles\DupCheck.xml" />
+    <Content Include="TestFiles\metrics-3.xml" />
+    <Content Include="TestFiles\metrics-2.xml" />
     <Content Include="TestFiles\metrics-A.xml" />
+    <Content Include="TestFiles\metrics.xml" />
     <Content Include="TestFiles\NumbersWithCommas.xml" />
     <Content Include="TestFiles\CodeMetricsResult.xml" />
     <Content Include="TestFiles\realfile.xml" />

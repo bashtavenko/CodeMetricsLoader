@@ -15,6 +15,12 @@ namespace CodeMetricsLoader.Data
         public DimModule ()
         {
             Targets = new List<DimTarget>();
+            Metrics = new List<FactMetrics>();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
         }
     }
 }
