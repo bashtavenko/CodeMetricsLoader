@@ -22,8 +22,7 @@ namespace CodeMetricsLoader.Data
         {
             Database.SetInitializer(new CreateDatabaseIfNotExists<LoaderContext>());                        
         }
-
-        public DbSet<DimTarget> Targets { get; set; }
+        
         public DbSet<DimModule> Modules { get; set; }
         public DbSet<DimNamespace> Namespaces { get; set; }
         public DbSet<DimType> Types { get; set; }
@@ -35,8 +34,7 @@ namespace CodeMetricsLoader.Data
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
-            modelBuilder.Configurations.Add(new DimTargetConfiguration());
+            
             modelBuilder.Configurations.Add(new DimModuleConfiguration());
             modelBuilder.Configurations.Add(new DimNamespaceConfiguration());
             modelBuilder.Configurations.Add(new DimTypeConfiguration());

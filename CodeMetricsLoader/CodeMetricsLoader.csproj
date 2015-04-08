@@ -80,7 +80,6 @@
     <Compile Include="CodeCoverage\Merger.cs" />
     <Compile Include="CodeCoverage\MergeStats.cs" />
     <Compile Include="Data\FactMetrics.cs" />
-    <Compile Include="Data\DimTarget.cs" />
     <Compile Include="Data\DimModule.cs" />
     <Compile Include="Data\DimNamespace.cs" />
     <Compile Include="Data\DimType.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="Data\Maps\DimMemberConfiguration.cs" />
     <Compile Include="Data\Maps\DimModuleConfiguration.cs" />
     <Compile Include="Data\Maps\DimNamespaceConfiguration.cs" />
-    <Compile Include="Data\Maps\DimTargetConfiguration.cs" />
     <Compile Include="Data\Maps\DimTypeConfiguration.cs" />
     <Compile Include="Data\Maps\FactMetricsConfiguration.cs" />
     <Compile Include="CodeCoverage\Tree.cs" />

@@ -43,21 +43,14 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void LoaderContext_Save_CanSave()
         {
-            var target = new DimTarget
-            {
-                Name = @"C:\My\Src\inbound-services\WebServices.Inbound\bin\Debug\WebServices.Inbound.dll",
-                FileName = "WebServices.Inbound.dll",
-                Tag = "prog-master"
-            };
-                        
             var module = new DimModule
             {
                 Name = "WebServices.Inbound",
                 AssemblyVersion = "1.0.0.0",
                 FileVersion = "1.0.0.0",
             };
-            target.Modules.Add(module);
-            _context.Targets.Add(target);
+
+            _context.Modules.Add(module);
                         
             var date = new DimDate();
             var metrics = new FactMetrics

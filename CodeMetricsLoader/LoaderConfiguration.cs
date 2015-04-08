@@ -10,10 +10,7 @@ namespace CodeMetricsLoader
 
         [Option('r', "coverage", Required = false, HelpText = "Xml file with code coverage")]
         public string CodeCoverageFilePath { get; set; }
-
-        [Option('t', "tag", Required = true, HelpText = "Target tag (repo name, branch name, etc")]
-        public string Tag { get; set; }
-
+        
         [Option('c', "connection", Required = false, HelpText = "Connection string")]
         public string ConnectionString { get; set; }
 

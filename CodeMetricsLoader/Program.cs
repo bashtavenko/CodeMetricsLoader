@@ -43,7 +43,7 @@ namespace CodeMetricsLoader
                     codeCoverageElements = GetXml(config.CodeCoverageFilePath);
                 }
 
-                loader.Load(metricsElements, codeCoverageElements, config.Tag, false);
+                loader.Load(metricsElements, codeCoverageElements, false);
             }
             catch (Exception ex)
             {

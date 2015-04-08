@@ -61,12 +61,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                           delete from dimmodule
                           from dimmodule dm
                           left outer join factmetrics fm on fm.moduleid = dm.moduleid
-                          where fm.moduleid is null
-
-                          delete from dimtarget
-                          from dimtarget dt
-                          left outer join dimtargetmodule dtm on dtm.targetid = dt.targetid
-                          where dtm.targetid is null");
+                          where fm.moduleid is null");
         }
 
         protected string GetFilePath (string fileName)

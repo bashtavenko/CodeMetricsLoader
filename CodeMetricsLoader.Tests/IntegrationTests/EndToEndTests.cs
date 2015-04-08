@@ -16,9 +16,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 "--m",
                 GetFilePath("metrics-2.xml"),
                 "--c",
-                ConnectionString,
-                "--t",
-                "test"
+                ConnectionString
             };
             DeleteTodaysRuns();
 
@@ -98,9 +96,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 "--m",
                 GetFilePath("metrics-3.xml"),
                 "--c",
-                ConnectionString,
-                "--t",
-                "test"
+                ConnectionString
             };
             DeleteTodaysRuns();
 
@@ -127,9 +123,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 "--m",
                 GetFilePath("metrics.xml"),
                 "--c",
-                ConnectionString,
-                "--t",
-                "test"
+                ConnectionString
             };
             DeleteTodaysRuns();
 

@@ -18,14 +18,13 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Loader loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml();
-                loader.Load(metrics, null, "master", false);
+                loader.Load(metrics, null, false);
             }
 
             using (LoaderContext testContext = ContextTests.CreateTestContext())
             {             
                 Assert.AreEqual(130, testContext.Metrics.Count());
                 Assert.AreEqual(1, testContext.Dates.Count());
-                Assert.AreEqual(1, testContext.Targets.Count());
                 Assert.AreEqual(1, testContext.Namespaces.Count());
                 Assert.AreEqual(16, testContext.Types.Count());
                 Assert.AreEqual(62, testContext.Members.Count());
@@ -66,7 +65,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Loader loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
-                loader.Load(metrics, null, "master", true);
+                loader.Load(metrics, null, true);
             }
 
             using (LoaderContext context = ContextTests.CreateTestContext())
@@ -74,14 +73,13 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Loader loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
-                loader.Load(metrics, null, "master", true);
+                loader.Load(metrics, null, true);
             }
 
             using (LoaderContext testContext = ContextTests.CreateTestContext())
             {
                 Assert.AreEqual(14, testContext.Metrics.Count());
                 Assert.AreEqual(2, testContext.Dates.Count());
-                Assert.AreEqual(1, testContext.Targets.Count());
                 Assert.AreEqual(2, testContext.Namespaces.Count());
                 Assert.AreEqual(1, testContext.Types.Count());
                 Assert.AreEqual(1, testContext.Members.Count());
@@ -97,8 +95,8 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 var loader = new Loader(context, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml();
-                loader.Load(metrics, null, "master", false);
-                loader.Load(metrics, null, "master", false);
+                loader.Load(metrics, null, false);
+                loader.Load(metrics, null, false);
                 
                 // TODO: Assert
             }
@@ -114,7 +112,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("metrics-A.xml");
                 XElement codeCoverage = UnitTests.LoaderTests.LoadXml("codecoverage-A.xml");
-                loader.Load(metrics, codeCoverage, "master", false);
+                loader.Load(metrics, codeCoverage, false);
 
                 // TODO: Assert
             }

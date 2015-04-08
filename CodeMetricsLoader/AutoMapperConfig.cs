@@ -65,8 +65,6 @@ namespace CodeMetricsLoader
                 .ForMember(m => m.Types, opt => opt.Ignore())
                 .ForMember(m => m.File, opt => opt.MapFrom(src => src.FileName))
                 .ForMember(m => m.Metrics, opt => opt.Ignore());
-
-            Mapper.CreateMap<Data.Target, DimTarget>();                
         }
 
         private static Metrics MapMetrics(XElement elements)
