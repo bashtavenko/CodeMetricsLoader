@@ -35,15 +35,15 @@ namespace CodeMetricsLoader.CodeCoverage
                 {
                     var treeA = new Tree(metricsTarget);
                     var treeB = new Tree(codeCoverageTarget);
-                    var mergedTree = Merge(treeA, treeB, MergeMode.OneWay);
-
-                    var mergedTarget = mergedTree.Root as Target;
-                    result.Add(metricsTarget);
-
+                    
+                    // Updates in mergedTree == treeA == metricsTarget
+                    var mergedTree = Merge(treeA, treeB, MergeMode.OneWay); 
+                    
                     var stats = MergeStats.Calculate(mergedTree);
                     logger.Log(string.Format(@"Code coverage merge stats - Total nodes:{0:N0} Merged:{1:N0} Merge Ratio:{2:P0} Missing Code Coverage:{3:N0} Ignored:{4:N0}",
                         stats.TotalNodesCount, stats.UpdatedCount, stats.MergeRatio, stats.MissingInOtherTreeNodes.Count, stats.SkippedNodes.Count));
                 }
+                result.Add(metricsTarget);
             }
             return result;
         }
