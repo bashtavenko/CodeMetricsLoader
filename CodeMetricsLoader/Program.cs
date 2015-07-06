@@ -40,7 +40,15 @@ namespace CodeMetricsLoader
 
                 if (!string.IsNullOrEmpty(config.CodeCoverageFilePath))
                 {
-                    codeCoverageElements = GetXml(config.CodeCoverageFilePath);
+                    if (File.Exists(config.CodeCoverageFilePath))
+                    {
+                        codeCoverageElements = GetXml(config.CodeCoverageFilePath);
+                    }
+                    else
+                    {
+                        // Code coverage is optional
+                        logger.Log(string.Format("Could not find code coverage file at '{0}'.", config.CodeCoverageFilePath));
+                    }
                 }
 
                 loader.Load(metricsElements, codeCoverageElements, false);
