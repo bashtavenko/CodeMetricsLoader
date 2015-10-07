@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using AutoMapper;
 using CodeMetricsLoader.CodeCoverage;
 using CodeMetricsLoader.Data;
+using System.Diagnostics;
 
 namespace CodeMetricsLoader
 {
@@ -56,10 +57,13 @@ namespace CodeMetricsLoader
             {
                 targets = metricsTargets;
             }
-            
+
             _logger.Log("Saving to database...");
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             SaveTargets(targets, useDateTime);
-            _logger.Log("Done.");
+            stopWatch.Stop();
+            _logger.Log(string.Format("Done ({0:00}:{1:00}.{2:00}).", stopWatch.Elapsed.Hours, stopWatch.Elapsed.Minutes, stopWatch.Elapsed.Seconds));
         }
 
         /// <summary>
@@ -148,7 +152,7 @@ namespace CodeMetricsLoader
                 factMetrics = Mapper.Map<FactMetrics>(module.Metrics);
                 factMetrics.Module = dimModule;
                 factMetrics.Date = dimDate;
-                dimModule.Metrics.Add(factMetrics);
+                _context.Metrics.Add(factMetrics);
                 foreach (var ns in module.Namespaces)
                 {
                     var dimNamespace = Mapper.Map<DimNamespace>(ns);
@@ -159,7 +163,7 @@ namespace CodeMetricsLoader
                     factMetrics.Module = dimModule;
                     factMetrics.Namespace = dimNamespace;
                     factMetrics.Date = dimDate;
-                    dimNamespace.Metrics.Add(factMetrics);
+                    _context.Metrics.Add(factMetrics);
                     foreach (var type in ns.Types)
                     {
                         var dimType = Mapper.Map<DimType>(type);
@@ -171,7 +175,7 @@ namespace CodeMetricsLoader
                         factMetrics.Namespace = dimNamespace;
                         factMetrics.Type = dimType;
                         factMetrics.Date = dimDate;
-                        dimType.Metrics.Add(factMetrics);
+                        _context.Metrics.Add(factMetrics);
                         foreach (var member in type.Members)
                         {
                             var dimMember = Mapper.Map<DimMember>(member);
@@ -186,7 +190,7 @@ namespace CodeMetricsLoader
                             factMetrics.Type = dimType;
                             factMetrics.Member = dimMember;
                             factMetrics.Date = dimDate;
-                            dimMember.Metrics.Add(factMetrics);
+                            _context.Metrics.Add(factMetrics);
                         }
                     }
                 }
