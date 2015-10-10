@@ -9,7 +9,6 @@ using System.Xml.Linq;
 using AutoMapper;
 using CodeMetricsLoader.CodeCoverage;
 using CodeMetricsLoader.Data;
-using System.Diagnostics;
 
 namespace CodeMetricsLoader
 {
@@ -58,12 +57,9 @@ namespace CodeMetricsLoader
                 targets = metricsTargets;
             }
 
-            _logger.Log("Saving to database...");
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-            SaveTargets(targets, useDateTime);
-            stopWatch.Stop();
-            _logger.Log(string.Format("Done ({0:00}:{1:00}.{2:00}).", stopWatch.Elapsed.Hours, stopWatch.Elapsed.Minutes, stopWatch.Elapsed.Seconds));
+            _logger.Log("Saving to database...");            
+            SaveTargets(targets, useDateTime);            
+            _logger.Log("Done.");
         }
 
         /// <summary>

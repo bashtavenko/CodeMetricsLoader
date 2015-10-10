@@ -49,8 +49,7 @@ namespace CodeMetricsLoader
                 .ForMember(m => m.Namespace, opt => opt.Ignore())
                 .ForMember(m => m.Member, opt => opt.Ignore())
                 .ForMember(m => m.CodeCoverage, opt => opt.MapFrom(src => src.CodeCoverage ?? 0));
-
-
+            
             Mapper.CreateMap<Data.Module, DimModule>()
                 .ForMember(m => m.Metrics, opt => opt.Ignore())
                 .ForMember(m => m.Namespaces, opt => opt.Ignore());                
