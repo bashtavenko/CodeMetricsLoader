@@ -63,7 +63,8 @@ namespace CodeMetricsLoader.CodeCoverage
 
                     ns.Types.Add(cs);
 
-                    foreach (var methodElement in classElement.Descendants("Method"))
+                    foreach (var methodElement in classElement.Descendants("Method")
+                        .Where(w => w.Attribute("skippedDueTo") == null))
                     {
                         var rawMember = GetDescendantValue(methodElement, "Name");
                         var method = new Member
@@ -94,7 +95,7 @@ namespace CodeMetricsLoader.CodeCoverage
                 throw new ArgumentException("Invalid Summary element");
             }
 
-            var summary = summaryParent.Descendants("Summary").First();
+            var summary = summaryParent.Descendants("Summary").FirstOrDefault();
             if (summary == null)
             {
                 throw new ArgumentException("No Summary element");
