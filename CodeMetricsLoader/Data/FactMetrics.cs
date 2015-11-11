@@ -4,6 +4,9 @@
     {
         public int MetricsId { get; set; }
 
+        public int? BranchId { get; set; }
+        public virtual DimBranch Branch{ get; set; }
+
         public int DateId { get; set; }
         public virtual DimDate Date { get; set; }
 

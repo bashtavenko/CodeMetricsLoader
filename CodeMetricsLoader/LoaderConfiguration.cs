@@ -17,6 +17,9 @@ namespace CodeMetricsLoader
         [Option('d', "datetime", Required = false, DefaultValue = false, HelpText = "Use date and time for date dimension")]
         public bool UseDateAndTime { get; set; }
 
+        [Option('b', "branch", Required = false, HelpText = "Branch name if different from 'master'")]
+        public string Branch { get; set; }
+
         [ParserState]
         public IParserState LastParserState { get; set; }
 

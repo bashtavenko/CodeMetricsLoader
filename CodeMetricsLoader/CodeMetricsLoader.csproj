@@ -79,11 +79,13 @@
     <Compile Include="CodeCoverage\MergeMode.cs" />
     <Compile Include="CodeCoverage\Merger.cs" />
     <Compile Include="CodeCoverage\MergeStats.cs" />
+    <Compile Include="Data\DimBranch.cs" />
     <Compile Include="Data\FactMetrics.cs" />
     <Compile Include="Data\DimModule.cs" />
     <Compile Include="Data\DimNamespace.cs" />
     <Compile Include="Data\DimType.cs" />
     <Compile Include="Data\DimMember.cs" />
+    <Compile Include="Data\Maps\DimBranchConfiguration.cs" />
     <Compile Include="Data\Maps\DimDateConfiguration.cs" />
     <Compile Include="Data\Maps\DimMemberConfiguration.cs" />
     <Compile Include="Data\Maps\DimModuleConfiguration.cs" />

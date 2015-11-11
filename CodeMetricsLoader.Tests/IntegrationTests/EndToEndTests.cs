@@ -130,5 +130,38 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
             // Act
             Program.Main(args);
         }
+
+        [Test]
+        public void Program_LoadBranch()
+        {
+            // Arrange
+            var args = new string[]
+            {
+                "--m",
+                GetFilePath("metrics-2.xml"),
+                "--c",
+                ConnectionString
+            };
+            var args2 = new string[]
+            {
+                "--m",
+                GetFilePath("metrics-2.xml"),
+                "--c",
+                ConnectionString,
+                "--b",
+                "demo"
+            };
+            DeleteTodaysRuns();
+
+            // Act
+            Program.Main(args);
+            Program.Main(args2);
+
+            // Assert
+            using (LoaderContext testContext = ContextTests.CreateTestContext())
+            {
+                Assert.That(testContext.Metrics.Count(), Is.EqualTo(16));
+            }
+        }
     }
 }

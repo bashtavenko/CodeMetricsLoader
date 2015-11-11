@@ -29,6 +29,7 @@ namespace CodeMetricsLoader.Data
         public DbSet<DimMember> Members { get; set; }                        
         public DbSet<DimDate> Dates { get; set; }
         public DbSet<FactMetrics> Metrics { get; set; }
+        public DbSet<DimBranch> Branches { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -41,6 +42,7 @@ namespace CodeMetricsLoader.Data
             modelBuilder.Configurations.Add(new DimMemberConfiguration());
             modelBuilder.Configurations.Add(new DimDateConfiguration());
             modelBuilder.Configurations.Add(new FactMetricsConfiguration());
+            modelBuilder.Configurations.Add(new DimBranchConfiguration());
         }
     }
 }

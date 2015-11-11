@@ -36,7 +36,8 @@ namespace CodeMetricsLoader
         /// <param name="metricsElements"></param>
         /// <param name="codeCoverageElements"></param>
         /// <param name="useDateTime">Use both date and time</param>
-        public void Load(XElement metricsElements, XElement codeCoverageElements, bool useDateTime)
+        /// <param name="branch">Optional branch name</param>
+        public void Load(XElement metricsElements, XElement codeCoverageElements, bool useDateTime, string branch = null)
         {
             if (metricsElements == null)
             {
@@ -58,7 +59,7 @@ namespace CodeMetricsLoader
             }
 
             _logger.Log("Saving to database...");            
-            SaveTargets(targets, useDateTime);            
+            SaveTargets(targets, useDateTime, branch);            
             _logger.Log("Done.");
         }
 
@@ -114,14 +115,15 @@ namespace CodeMetricsLoader
 
             return targets;
         }
-        
+
 
         /// <summary>
         /// Save DTOs to database
         /// </summary>
         /// <param name="targets">DTOs to save</param>
         /// <param name="useDateTime">Use both date and time</param>
-        public void SaveTargets(IList<Target> targets, bool useDateTime)
+        /// <param name="branch">Optional branch name</param>
+        public void SaveTargets(IList<Target> targets, bool useDateTime, string branch)
         {
             _context.Configuration.AutoDetectChangesEnabled = false;
             
@@ -132,13 +134,24 @@ namespace CodeMetricsLoader
                 var date = dimDate.Date;
                 dimDate = GetOrAddEntity(_context.Dates, dimDate, d => d.Date.Date == date);
             }
+
+            int? branchId;
+            if (string.IsNullOrEmpty(branch) || branch.Equals("master", StringComparison.InvariantCultureIgnoreCase))
+            {
+                branchId = null;
+            }
+            else
+            {
+                branchId = CreateReadOrDeleteBranch(branch);
+            }
+              
             FactMetrics factMetrics;
             foreach (var module in targets.SelectMany(m => m.Modules))
             {
-                // TODO: this won't work if module is used in multiple projects
-                if (HaveDataForThisDate(module.Name, dimDate.Date))
+                if (HaveDataForThisDate(branchId, module.Name, dimDate.Date))
                 {
-                    _logger.Log(string.Format("Already have data for module {0} and this date", module.Name));
+                    string branchNameToDisplay = branch ?? "master";
+                    _logger.Log($"Already have data for branch '{branchNameToDisplay}', module {module.Name} and this date.");
                     continue;
                 }
 
@@ -146,6 +159,7 @@ namespace CodeMetricsLoader
                 string moduleName = dimModule.Name;
                 dimModule = GetOrAddEntity(_context.Modules, dimModule, m => m.Name == moduleName);
                 factMetrics = Mapper.Map<FactMetrics>(module.Metrics);
+                factMetrics.BranchId = branchId;
                 factMetrics.Module = dimModule;
                 factMetrics.Date = dimDate;
                 _context.Metrics.Add(factMetrics);
@@ -156,6 +170,7 @@ namespace CodeMetricsLoader
                     dimNamespace = GetOrAddEntity(_context.Namespaces, dimNamespace, n => n.Name == namespaceName);
                     dimNamespace.Modules.Add(dimModule);
                     factMetrics = Mapper.Map<FactMetrics>(ns.Metrics);
+                    factMetrics.BranchId = branchId;
                     factMetrics.Module = dimModule;
                     factMetrics.Namespace = dimNamespace;
                     factMetrics.Date = dimDate;
@@ -167,6 +182,7 @@ namespace CodeMetricsLoader
                         dimType = GetOrAddEntity(_context.Types, dimType, t => t.Name == typeName);
                         dimType.Namespaces.Add(dimNamespace);
                         factMetrics = Mapper.Map<FactMetrics>(type.Metrics);
+                        factMetrics.BranchId = branchId;
                         factMetrics.Module = dimModule;
                         factMetrics.Namespace = dimNamespace;
                         factMetrics.Type = dimType;
@@ -181,6 +197,7 @@ namespace CodeMetricsLoader
                             dimMember = GetOrAddEntity(_context.Members, dimMember, m => m.Name == memberName && m.File == memberFileName && m.Line == memberLine);
                             dimMember.Types.Add(dimType);
                             factMetrics = Mapper.Map<FactMetrics>(member.Metrics);
+                            factMetrics.BranchId = branchId;
                             factMetrics.Module = dimModule;
                             factMetrics.Namespace = dimNamespace;
                             factMetrics.Type = dimType;
@@ -211,7 +228,34 @@ namespace CodeMetricsLoader
                 }
                 throw new ApplicationException(sb.ToString(), ex);
             }
-        }      
+        }
+
+        public int CreateReadOrDeleteBranch(string branchName)
+        {
+            const int maxNumberOfBranches = 10;
+
+            var branch = _context.Branches.FirstOrDefault(f => f.Name.Equals(branchName, StringComparison.InvariantCultureIgnoreCase));
+            if (branch != null)
+            {
+                return branch.BranchId;
+            }
+
+            // We don't want stale branches. An alternative for deletion branches during insert would be a separate SQL job
+            // although it would have to make deletes in more than one table.
+            if (_context.Branches.Count() > maxNumberOfBranches)
+            {
+                var branchesToDelete = _context.Branches
+                    .OrderBy(s => s.CreatedDate)
+                    .Take(_context.Branches.Count() - maxNumberOfBranches + 1);
+
+                _context.Branches.RemoveRange(branchesToDelete);
+            }
+
+            var newBranch = new DimBranch {Name = branchName, CreatedDate = DateTime.Now};
+            _context.Branches.Add(newBranch);
+            _context.SaveChanges();
+            return newBranch.BranchId;
+        }
 
         /// <summary>
         /// Gets existing entity from db or adds one
@@ -244,9 +288,9 @@ namespace CodeMetricsLoader
             }
         }
 
-        private bool HaveDataForThisDate(string moduleName, DateTime date)
+        private bool HaveDataForThisDate(int? branchId, string moduleName, DateTime date)
         {
-            return _context.Metrics.Any(m => m.Date.Date == date && m.Module.Name.Equals(moduleName, StringComparison.InvariantCultureIgnoreCase));
+            return _context.Metrics.Any(m => m.BranchId == branchId && m.Date.Date == date && m.Module.Name.Equals(moduleName, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

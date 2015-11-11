@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 
 using NUnit.Framework;
@@ -22,7 +23,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
             }
 
             using (LoaderContext testContext = ContextTests.CreateTestContext())
-            {             
+            {
                 Assert.AreEqual(130, testContext.Metrics.Count());
                 Assert.AreEqual(1, testContext.Dates.Count());
                 Assert.AreEqual(1, testContext.Namespaces.Count());
@@ -36,7 +37,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 Assert.AreEqual(21, metricsFromDb.ClassCoupling);
                 Assert.AreEqual(1, metricsFromDb.DepthOfInheritance);
                 Assert.AreEqual(112, metricsFromDb.LinesOfCode);
-                
+
                 var type = testContext.Types.SingleOrDefault(t => t.Name == "QpayService");
                 Assert.IsNotNull(type);
                 Assert.That(type.Members.Count, Is.EqualTo(7));
@@ -97,7 +98,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 XElement metrics = UnitTests.LoaderTests.LoadXml();
                 loader.Load(metrics, null, false);
                 loader.Load(metrics, null, false);
-                
+
                 // TODO: Assert
             }
         }
@@ -115,6 +116,30 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 loader.Load(metrics, codeCoverage, false);
 
                 // TODO: Assert
+            }
+        }
+
+        [Test]
+        public void Loader_CreateReadOrDeleteBranch()
+        {
+            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            {
+                var loader = new Loader(context, new TestLogger());
+
+                // Start fresh
+                const string branchName = "demo";
+                int branchId = loader.CreateReadOrDeleteBranch(branchName);
+
+                int anotherBranchId = loader.CreateReadOrDeleteBranch(branchName);
+                Assert.That(anotherBranchId, Is.EqualTo(branchId));
+
+                for (int i = 1; i <= 15; i++)
+                {
+                    loader.CreateReadOrDeleteBranch(branchName + i);
+                    Thread.Sleep(500);
+                }
+
+                Assert.That(context.Branches.Count(), Is.EqualTo(10));
             }
         }
     }

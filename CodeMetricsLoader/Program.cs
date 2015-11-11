@@ -47,11 +47,11 @@ namespace CodeMetricsLoader
                     else
                     {
                         // Code coverage is optional
-                        logger.Log(string.Format("Could not find code coverage file at '{0}'.", config.CodeCoverageFilePath));
+                        logger.Log($"Could not find code coverage file at '{config.CodeCoverageFilePath}'.");
                     }
                 }
 
-                loader.Load(metricsElements, codeCoverageElements, false);
+                loader.Load(metricsElements, codeCoverageElements, false, config.Branch);
             }
             catch (Exception ex)
             {
