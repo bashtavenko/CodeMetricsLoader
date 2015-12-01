@@ -19,6 +19,9 @@ namespace CodeMetricsLoader.Data
             MergeStatus = MergeStatus.Unknown;
         }
 
+        /// <summary>
+        /// Filter out dups, leave only unique members.
+        /// </summary>
         public IList<Node> UniqueChildren
         {
             get
@@ -50,7 +53,7 @@ namespace CodeMetricsLoader.Data
         public override bool Equals(object obj)
         {
             var otherNode = obj as Node;
-            return otherNode != null && otherNode.Key.Equals(this.Key, StringComparison.InvariantCultureIgnoreCase);
+            return otherNode != null && otherNode.Key.Equals(this.Key, StringComparison.InvariantCulture); // Do NOT ignore case
         }
     }
 }

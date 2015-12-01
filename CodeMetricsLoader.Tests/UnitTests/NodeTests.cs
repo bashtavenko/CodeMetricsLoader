@@ -45,6 +45,37 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.That(nodes[1].Name, Is.EqualTo("F"));
         }
 
+
+        [Test]
+        public void INode_UniqueChildren_WithCase()
+        {
+            // Arrange
+            var type = new Type
+            {
+                Name = "TY1",
+                Members = new List<Member>
+                {
+                    new Member {Name = "B"},
+                    new Member {Name = "B"},
+                    new Member {Name = "b"},
+                    new Member {Name = "C"},
+                    new Member {Name = "D"},
+                    new Member {Name = "D"},
+                    new Member {Name = "F"},
+                }
+            };
+
+            // Act
+            var nodes = type.UniqueChildren;
+
+            // Assert
+            Assert.That(nodes.Count, Is.EqualTo(3));
+            Assert.That(nodes[0].Name, Is.EqualTo("b"));
+            Assert.That(nodes[1].Name, Is.EqualTo("C"));
+            Assert.That(nodes[2].Name, Is.EqualTo("F"));
+        }
+
+
         [Test]
         public void INode_Value()
         {
