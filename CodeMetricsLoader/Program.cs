@@ -35,14 +35,14 @@ namespace CodeMetricsLoader
                 XElement metricsElements = null, codeCoverageElements = null;
                 if (!string.IsNullOrEmpty(config.MetricsFilePath))
                 {
-                    metricsElements = GetXml(config.MetricsFilePath);
+                    metricsElements = GetXml(config.MetricsFilePath, logger);
                 }
 
                 if (!string.IsNullOrEmpty(config.CodeCoverageFilePath))
                 {
                     if (File.Exists(config.CodeCoverageFilePath))
                     {
-                        codeCoverageElements = GetXml(config.CodeCoverageFilePath);
+                        codeCoverageElements = GetXml(config.CodeCoverageFilePath, logger);
                     }
                     else
                     {
@@ -59,13 +59,23 @@ namespace CodeMetricsLoader
             }            
         }
 
-        private static XElement GetXml(string filePath)
+        private static XElement GetXml(string filePath, Logger logger)
         {
-            XElement elements;
-            using (var sr = new StreamReader(filePath))
+            XElement elements = null;
+            StreamReader sr = null;
+            try
             {
+                sr = new StreamReader(filePath);
                 string xml = sr.ReadToEnd();
                 elements = XElement.Parse(xml);
+            }
+            catch (Exception ex)
+            {
+                logger.Log($"Failed to read XML file {filePath} - {ex.Message}");
+            }
+            finally
+            {
+                sr?.Dispose();
             }
             return elements;
         }
