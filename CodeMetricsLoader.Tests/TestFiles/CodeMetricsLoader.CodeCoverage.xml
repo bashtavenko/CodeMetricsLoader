@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CoverageReport scope="Summary">
+  <Summary>
+    <Generatedon>12/16/2015 - 5:38:39 PM</Generatedon>
+    <Parser>OpenCoverParser</Parser>
+    <Assemblies>1</Assemblies>
+    <Classes>36</Classes>
+    <Files>36</Files>
+    <Coveredlines>921</Coveredlines>
+    <Uncoveredlines>179</Uncoveredlines>
+    <Coverablelines>1100</Coverablelines>
+    <Totallines>1924</Totallines>
+    <Linecoverage>83.7%</Linecoverage>
+    <Branchcoverage>69.6%</Branchcoverage>
+  </Summary>
+  <Assemblies>
+    <Assembly name="CodeMetricsLoader" classes="36" coverage="83.7" coveredlines="921" coverablelines="1100" totallines="1924" branchcoverage="69.6" coveredbranches="149" totalbranches="214">
+      <Class name="CodeMetricsLoader.AutoMapperConfig" coverage="97.1" coveredlines="68" coverablelines="70" totallines="107" branchcoverage="83.3" coveredbranches="5" totalbranches="6" />
+      <Class name="CodeMetricsLoader.CodeCoverage.CodeCoverageClass" coverage="72.2" coveredlines="13" coverablelines="18" totallines="36" branchcoverage="50" coveredbranches="2" totalbranches="4" />
+      <Class name="CodeMetricsLoader.CodeCoverage.CodeCoverageConverter" coverage="90.7" coveredlines="49" coverablelines="54" totallines="89" branchcoverage="91.6" coveredbranches="11" totalbranches="12" />
+      <Class name="CodeMetricsLoader.CodeCoverage.Merger" coverage="70.3" coveredlines="45" coverablelines="64" totallines="105" branchcoverage="70.8" coveredbranches="17" totalbranches="24" />
+      <Class name="CodeMetricsLoader.CodeCoverage.MergeStats" coverage="0" coveredlines="0" coverablelines="38" totallines="69" branchcoverage="0" coveredbranches="0" totalbranches="11" />
+      <Class name="CodeMetricsLoader.CodeCoverage.MethodConverter" coverage="91.1" coveredlines="113" coverablelines="124" totallines="200" branchcoverage="74.5" coveredbranches="41" totalbranches="55" />
+      <Class name="CodeMetricsLoader.CodeCoverage.OpenCoverParser" coverage="91.6" coveredlines="66" coverablelines="72" totallines="108" branchcoverage="78.5" coveredbranches="11" totalbranches="14" />
+      <Class name="CodeMetricsLoader.CodeCoverage.OpenCoverType" coverage="100" coveredlines="39" coverablelines="39" totallines="62" branchcoverage="100" coveredbranches="8" totalbranches="8" />
+      <Class name="CodeMetricsLoader.CodeCoverage.Tree" coverage="85.7" coveredlines="24" coverablelines="28" totallines="57" branchcoverage="75" coveredbranches="6" totalbranches="8" />
+      <Class name="CodeMetricsLoader.Data.DimBranch" coverage="100" coveredlines="8" coverablelines="8" totallines="18" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.DimDate" coverage="100" coveredlines="31" coverablelines="31" totallines="46" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.DimMember" coverage="100" coveredlines="11" coverablelines="11" totallines="20" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.DimModule" coverage="76.9" coveredlines="10" coverablelines="13" totallines="24" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.DimNamespace" coverage="100" coveredlines="10" coverablelines="10" totallines="19" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.DimType" coverage="100" coveredlines="10" coverablelines="10" totallines="19" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.FactMetrics" coverage="100" coveredlines="19" coverablelines="19" totallines="32" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.LoaderContext" coverage="86.6" coveredlines="26" coverablelines="30" totallines="48" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Maps.DimBranchConfiguration" coverage="100" coveredlines="5" coverablelines="5" totallines="13" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Maps.DimDateConfiguration" coverage="100" coveredlines="4" coverablelines="4" totallines="12" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Maps.DimMemberConfiguration" coverage="100" coveredlines="6" coverablelines="6" totallines="14" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Maps.DimModuleConfiguration" coverage="100" coveredlines="13" coverablelines="13" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Maps.DimNamespaceConfiguration" coverage="100" coveredlines="13" coverablelines="13" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Maps.DimTypeConfiguration" coverage="100" coveredlines="13" coverablelines="13" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Maps.FactMetricsConfiguration" coverage="100" coveredlines="4" coverablelines="4" totallines="12" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Member" coverage="91.6" coveredlines="11" coverablelines="12" totallines="27" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Metrics" coverage="100" coveredlines="6" coverablelines="6" totallines="12" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Data.Module" coverage="74.1" coveredlines="23" coverablelines="31" totallines="63" branchcoverage="0" coveredbranches="0" totalbranches="2" />
+      <Class name="CodeMetricsLoader.Data.Namespace" coverage="74.1" coveredlines="23" coverablelines="31" totallines="59" branchcoverage="50" coveredbranches="2" totalbranches="4" />
+      <Class name="CodeMetricsLoader.Data.Node" coverage="86.2" coveredlines="25" coverablelines="29" totallines="57" branchcoverage="100" coveredbranches="2" totalbranches="2" />
+      <Class name="CodeMetricsLoader.Data.Target" coverage="58.8" coveredlines="10" coverablelines="17" totallines="39" branchcoverage="0" coveredbranches="0" totalbranches="2" />
+      <Class name="CodeMetricsLoader.Data.Type" coverage="68.4" coveredlines="13" coverablelines="19" totallines="44" branchcoverage="0" coveredbranches="0" totalbranches="2" />
+      <Class name="CodeMetricsLoader.Loader" coverage="88.8" coveredlines="168" coverablelines="189" totallines="296" branchcoverage="81.2" coveredbranches="39" totalbranches="48" />
+      <Class name="CodeMetricsLoader.LoaderConfiguration" coverage="55.5" coveredlines="5" coverablelines="9" totallines="32" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.LoaderException" coverage="66.6" coveredlines="2" coverablelines="3" totallines="19" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Logger" coverage="100" coveredlines="3" coverablelines="3" totallines="17" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="CodeMetricsLoader.Program" coverage="59.2" coveredlines="32" coverablelines="54" totallines="83" branchcoverage="41.6" coveredbranches="5" totalbranches="12" />
+    </Assembly>
+  </Assemblies>
+</CoverageReport>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CodeMetricsLoader.Data
@@ -35,12 +36,25 @@ namespace CodeMetricsLoader.Data
 
         public override void AddChild(Node child)
         {
-            if (child == null || child as Namespace == null)
+            if (!(child is Namespace))
             {
                 throw new ArgumentException("Must have a namespace node");
             }
 
-            Namespaces.Add(child as Namespace);
+            Namespaces.Add((Namespace) child);
+        }
+
+        public override bool Equals(object obj)
+        {
+            // Extension of the modules that come during code coverage merge is unknown because ReportGenerator does not provide it.
+            // Most likely it is ".dll", but it can be ".exe" as well.
+            var otherNode = obj as Module;
+            return otherNode != null && DropDllOrExeIfExists(Name).Equals(DropDllOrExeIfExists(otherNode.Name), StringComparison.InvariantCulture);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

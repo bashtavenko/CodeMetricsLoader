@@ -26,11 +26,7 @@ namespace CodeMetricsLoader.CodeCoverage
             var result = new List<Target>();
             foreach (var metricsTarget in metrics)
             {
-                // It is possible to have duplicate code coverage target. Example: same DLL is used in unit and integration test projects.
-                var codeCoverageTarget = codeCoverage
-                    .Where(s => s.Equals(metricsTarget))
-                    .OrderByDescending(s => s.Value)
-                    .FirstOrDefault();
+                var codeCoverageTarget = codeCoverage.SingleOrDefault(s => s.Equals(metricsTarget)); // There should always be 0..1 code coverage targets.
                 if (codeCoverageTarget != null)
                 {
                     var treeA = new Tree(metricsTarget);

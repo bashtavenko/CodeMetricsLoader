@@ -33,20 +33,22 @@ namespace CodeMetricsLoader.Data
 
         public override void AddChild(Node child)
         {
-            if (child == null || child as Type == null)
+            if (!(child is Type))
             {
                 throw new ArgumentException("Must have a Type node");
             }
 
-            Types.Add(child as Type);
+            Types.Add((Type) child);
         }
 
         public void UpdateMetricsFromTypes()
         {
+            double? codeCoverage = Types.Average(s => s.Metrics.CodeCoverage);
+
             Metrics = new Metrics
             {
                 ClassCoupling = (int)Types.Average(s => s.Metrics.ClassCoupling),
-                CodeCoverage = (int)Types.Average(s => s.Metrics.CodeCoverage),
+                CodeCoverage = codeCoverage.HasValue ? (int) codeCoverage : 0,
                 CyclomaticComplexity = Types.Sum(s => s.Metrics.CyclomaticComplexity),
                 DepthOfInheritance = (int)Types.Average(s => s.Metrics.DepthOfInheritance),
                 LinesOfCode = Types.Sum(s => s.Metrics.LinesOfCode),

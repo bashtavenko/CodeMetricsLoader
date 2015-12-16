@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CodeMetricsLoader.Data
@@ -28,12 +29,24 @@ namespace CodeMetricsLoader.Data
 
         public override void AddChild(Node child)
         {
-            if (child == null || child as Module == null)
+            if (!(child is Module))
             {
                 throw new ArgumentException("Must have a Module node");
             }
 
-            Modules.Add(child as Module);
+            Modules.Add((Module) child);
+        }
+
+        // Similar to modules
+        public override bool Equals(object obj)
+        {
+            var otherNode = obj as Target;
+            return otherNode != null && DropDllOrExeIfExists(FileName).Equals(DropDllOrExeIfExists(otherNode.FileName), StringComparison.InvariantCulture);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

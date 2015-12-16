@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CodeMetricsLoader.Data
 {
-    public class Node
+    public abstract class Node
     {
         public virtual string Key { get; set; }
         public virtual int? Value { get; set; }
@@ -13,7 +13,9 @@ namespace CodeMetricsLoader.Data
         public MergeStatus MergeStatus { get; set; }
         public virtual IList<Node> Children { get { return null; }}
         
-
+        // There are no code coverage for members.
+        public virtual bool CanBeMerged { get; set; } = true;
+        
         public Node()
         {
             MergeStatus = MergeStatus.Unknown;
@@ -43,6 +45,26 @@ namespace CodeMetricsLoader.Data
 
         public virtual void AddChild(Node child)
         {
+        }
+
+        // We can't use Path.GetFileNameWithoutExtension because we only want to drop .dll or .exe
+        // and Path.GetFileNameWithoutExtension doesn't work in cases like "A.Data.Maps" (it will think that extension is .Maps)
+        // We also can't make it a property since Target has FileNameWithoutExtension property.
+        public string DropDllOrExeIfExists(string nameToCheck)
+        {
+            if (nameToCheck == null)
+            {
+                throw new ArgumentNullException(nameof(nameToCheck));
+            }
+            var extensionIndex = new Regex(".dll|.exe").Match(nameToCheck).Index;
+            if (extensionIndex > 0)
+            {
+                return nameToCheck.Substring(0, extensionIndex);
+            }
+            else
+            {
+                return nameToCheck;
+            }
         }
 
         public override int GetHashCode()

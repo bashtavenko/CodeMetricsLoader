@@ -69,22 +69,18 @@
     <Compile Include="IntegrationTests\EndToEndTests.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\LoaderTests.cs" />
-    <Compile Include="UnitTests\OpenCoverTypeTests.cs" />
+    <Compile Include="UnitTests\CodeCoverageConverterTests.cs" />
     <Compile Include="TestLogger.cs" />
     <Compile Include="UnitTests\LoaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTests\MethodConverterTests.cs" />
     <Compile Include="UnitTests\MergerTests.cs" />
     <Compile Include="UnitTests\NodeTests.cs" />
-    <Compile Include="UnitTests\OpenCoverParserTests.cs" />
     <Compile Include="UnitTests\TestNode.cs" />
     <Compile Include="UnitTests\TreeTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestFiles\codecoverage-A.xml" />
-    <Content Include="TestFiles\codecoverage.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="TestFiles\CodeCoverageSummary.xml" />
+    <Content Include="TestFiles\CodeMetricsLoader.metrics.xml" />
     <Content Include="TestFiles\DupCheck.xml" />
     <Content Include="TestFiles\metrics-3.xml" />
     <Content Include="TestFiles\metrics-2.xml" />
@@ -92,7 +88,7 @@
     <Content Include="TestFiles\metrics.xml" />
     <Content Include="TestFiles\NumbersWithCommas.xml" />
     <Content Include="TestFiles\CodeMetricsResult.xml" />
-    <Content Include="TestFiles\realfile.xml" />
+    <Content Include="TestFiles\CodeMetricsLoader.CodeCoverage.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeMetricsLoader\CodeMetricsLoader.csproj">

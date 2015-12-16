@@ -70,6 +70,17 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.IsNotNull(testMember.Line);
         }
 
+
+        public static XElement LoadXmlFromAbsolutePath(string absolutePathFileName)
+        {
+            using (StreamReader sr = new StreamReader(absolutePathFileName))
+            {
+                string xml = sr.ReadToEnd();
+                return XElement.Parse(xml);
+            }
+        }
+
+
         public static XElement LoadXml(string fileName)
         {
             return LoadXmlInternal(fileName);

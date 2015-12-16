@@ -108,5 +108,21 @@ namespace CodeMetricsLoader.Tests.UnitTests
             // Assert
             Assert.That(type.Value, Is.EqualTo(20));
         }
+
+        [TestCase("A", "A", true)]
+        [TestCase("A.dll", "A", true)]
+        [TestCase("A.exe", "A", true)]
+        [TestCase("A", "B", false)]
+        [TestCase("A", "A.dll", true)]
+        [TestCase("A", "A.exe", true)]
+        [TestCase("A.Data.Maps.dll", "A.Data.Maps", true)]
+        [TestCase("A.Data.Maps", "A.Data.Maps.dll", true)]
+        [TestCase("A.Data.Maps.exe", "A.Data.Maps", true)]
+        [TestCase("A.Data.Maps", "A.Data.Maps.exe", true)]
+        [TestCase("a.data.maps", "A.Data.Maps.exe", false)]
+        public void INode_Module(string firstModule, string secondModule, bool expected)
+        {
+            Assert.That(new Module {Name = firstModule}.Equals(new Module {Name = secondModule}), Is.EqualTo(expected));
+        }
     }
 }

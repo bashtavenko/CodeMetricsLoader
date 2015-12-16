@@ -48,8 +48,8 @@ namespace CodeMetricsLoader
             
             if (codeCoverageElements != null)
             {
-                var parser = new OpenCoverParser();
-                List<Target> codeCoverageTargets = parser.Parse(codeCoverageElements);
+                var parser = new CodeCoverageConverter();
+                List<Target> codeCoverageTargets = parser.Convert(codeCoverageElements);
                 var merger = new Merger();
                 targets = merger.Merge(metricsTargets, codeCoverageTargets, _logger);
             }

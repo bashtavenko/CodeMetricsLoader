@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 
 using NUnit.Framework;
 
 using CodeMetricsLoader.Data;
+using Dapper;
 
 namespace CodeMetricsLoader.Tests.IntegrationTests
 {
@@ -108,14 +110,45 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         {
             using (LoaderContext context = ContextTests.CreateTestContext(true))
             {
-
                 var loader = new Loader(context, new TestLogger());
 
-                XElement metrics = UnitTests.LoaderTests.LoadXml("metrics-A.xml");
-                XElement codeCoverage = UnitTests.LoaderTests.LoadXml("codecoverage-A.xml");
+                XElement metrics = UnitTests.LoaderTests.LoadXml("CodeMetricsLoader.metrics.xml");
+                XElement codeCoverage = UnitTests.LoaderTests.LoadXml("CodeMetricsLoader.CodeCoverage.xml");
                 loader.Load(metrics, codeCoverage, false);
 
-                // TODO: Assert
+                var db = context.Database.Connection;
+                var modules = db.Query("select * from DimModule").ToList();
+                Assert.That(modules.Count(), Is.EqualTo(1));
+                var moduleId = modules.First().ModuleId;
+
+                var namespaces = db.Query("select * from DimNamespace").ToList();
+                Assert.That(namespaces.Count, Is.EqualTo(4));
+
+                var types = db.Query("select * from DimType").ToList();
+                Assert.That(types.Count, Is.EqualTo(66));
+
+                var members = db.Query("select * from DimMember").ToList();
+                Assert.That(members.Count, Is.EqualTo(419));
+
+                var moduleMetrics = db.Query(@"
+                                select * from FactMetrics fm
+                                where fm.Moduleid = @moduleId and fm.NamespaceId is null and fm.TypeId is null and fm.MemberId is null",
+                                new {moduleId}).Single();
+                Assert.That(moduleMetrics.MaintainabilityIndex, Is.EqualTo(85));
+                Assert.That(moduleMetrics.CodeCoverage, Is.EqualTo(70));
+            }
+        }
+
+        [Test]
+        public void Loader_LoadMetricsAndCodeCoverageAdHoc()
+        {
+            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            {
+                var loader = new Loader(context, new TestLogger());
+
+                XElement metrics = UnitTests.LoaderTests.LoadXmlFromAbsolutePath(@"C:\My\CodeMetrics\CodeCoverage\PowerToolOutput\Approve.Me.Common.metrics.xml");
+                XElement codeCoverage = UnitTests.LoaderTests.LoadXmlFromAbsolutePath(@"C:\My\CodeMetrics\CodeCoverage\approve.me.api\Summary.xml");
+                loader.Load(metrics, codeCoverage, false);
             }
         }
 

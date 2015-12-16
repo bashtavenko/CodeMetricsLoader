@@ -12,7 +12,8 @@ namespace CodeMetricsLoader.Data
         public string File { get; set; }
         public int? Line { get; set; }
         public string FileName { get { return string.IsNullOrEmpty(File) ? null : Path.GetFileName(File); } }
-        
+        public override bool CanBeMerged { get; set; } = false;
+
         public override int? Value
         {
             get { return Metrics.CodeCoverage; }
