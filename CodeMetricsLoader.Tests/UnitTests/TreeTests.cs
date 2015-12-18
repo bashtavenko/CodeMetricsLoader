@@ -16,17 +16,16 @@ namespace CodeMetricsLoader.Tests.UnitTests
         public void Tree_Nodes_Count()
         {
             // Arrange
-            var node = new TestNode
+            var node = new TestNode ("A")
             {
-                Name = "A",
                 Value = 2,
                 TestNodeChildren = new List<TestNode>
-                                               {
-                                                 new TestNode { Name = "B", Value = 3},   
-                                                 new TestNode { Name = "C", Value = 1},
-                                                 new TestNode { Name = "D", Value = 1},
-                                                 new TestNode { Name = "E", Value = 1}   
-                                               }
+                {
+                    new TestNode ("B") {Value = 3},   
+                    new TestNode ("C") {Value = 1},
+                    new TestNode ("D") {Value = 1},
+                    new TestNode ("E") {Value = 1}   
+                }
             };
             var tree = new Tree(node);
 
@@ -41,37 +40,31 @@ namespace CodeMetricsLoader.Tests.UnitTests
         public void Tree_Find()
         {
             // Arrange
-            var target = new Target
+            var target = new Target ("T1")
                          {
-                             Name = "T1",
                              Modules = new List<Module>
                                        {
-                                           new Module
+                                           new Module ("M1")
                                            {
-                                               Name = "M1",
                                                Metrics = new Metrics { CodeCoverage = 10},
                                                Namespaces = new List<Namespace>
                                                             {
-                                                                new Namespace
+                                                                new Namespace ("NS1")
                                                                 {
-                                                                    Name = "NS1",
                                                                     Metrics = new Metrics { CodeCoverage = 10},
                                                                     Types = new List<Type>
                                                                             {
-                                                                                new Type
+                                                                                new Type ("TY1")
                                                                                 {
-                                                                                    Name = "TY1",
                                                                                     Metrics = new Metrics { CodeCoverage = 10},
                                                                                     Members = new List<Member>
                                                                                               {
-                                                                                                  new Member
+                                                                                                  new Member ("ME1")
                                                                                                   {
-                                                                                                      Name = "ME1",
                                                                                                       Metrics = new Metrics { CodeCoverage = 10},
                                                                                                   },
-                                                                                                  new Member
+                                                                                                  new Member ("ME2")
                                                                                                   {
-                                                                                                      Name = "ME2",
                                                                                                       Metrics = new Metrics { CodeCoverage = 10},
                                                                                                   }  
                                                                                               }
@@ -101,18 +94,17 @@ namespace CodeMetricsLoader.Tests.UnitTests
         public void Tree_With_Dups()
         {
             // Arrange
-            var node = new TestNode
+            var node = new TestNode ("A")
             {
-                Name = "A",
                 Value = 2,
                 TestNodeChildren = new List<TestNode>
-                                               {
-                                                 new TestNode { Name = "B", Value = 3},   
-                                                 new TestNode { Name = "B", Value = 1},
-                                                 new TestNode { Name = "C", Value = 1},
-                                                 new TestNode { Name = "D", Value = 1},   
-                                                 new TestNode { Name = "D", Value = 3}   
-                                               }
+                {
+                    new TestNode ("B") { Value = 3},   
+                    new TestNode ("B") { Value = 1},
+                    new TestNode ("C") { Value = 1},
+                    new TestNode ("D") { Value = 1},   
+                    new TestNode ("D") { Value = 3}   
+                }                 
             };
             var tree = new Tree(node);
 

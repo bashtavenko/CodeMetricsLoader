@@ -22,25 +22,23 @@ namespace CodeMetricsLoader.Tests.UnitTests
         public void Merger_TreeNodes()
         {   
             // Arrange
-            var nodeA = new TestNode
+            var nodeA = new TestNode ("A")
                         {
-                            Name = "A",
                             Value = 2,
                             TestNodeChildren = new List<TestNode>
                                                {
-                                                 new TestNode { Name = "B", Value = 3},   
-                                                 new TestNode { Name = "C", Value = 1}   
+                                                 new TestNode ("B") { Value = 3},   
+                                                 new TestNode ("C") { Value = 1}   
                                                }
                         };
 
-            var nodeB = new TestNode
+            var nodeB = new TestNode ("A")
             {
-                Name = "A",
                 Value = 3,
                 TestNodeChildren = new List<TestNode>
                                                {
-                                                 new TestNode { Name = "B", Value = 1},   
-                                                 new TestNode { Name = "D", Value = 2}   
+                                                 new TestNode ("B") { Value = 1},   
+                                                 new TestNode ("D") { Value = 2}   
                                                }
             };
 
@@ -80,26 +78,23 @@ namespace CodeMetricsLoader.Tests.UnitTests
         public void Merger_FourNodes()
         {
             // Arrange
-            var nodeA = new TestNode
+            var nodeA = new TestNode ("A")
             {
-                Name = "A",
                 Value = 2,
                 TestNodeChildren = new List<TestNode>
                 {
-                    new TestNode
+                    new TestNode ("B")
                     {
-                        Name = "B",
                         Value = 3,
                         TestNodeChildren = new List<TestNode>
                         {
-                            new TestNode
+                            new TestNode ("C")
                             {
-                                Name = "C",
                                 Value = 4,
                                 TestNodeChildren = new List<TestNode>
                                 {
-                                    new TestNode { Name = "D1", Value = 2},
-                                    new TestNode { Name = "D2", Value = 3},
+                                    new TestNode ("D1") { Value = 2},
+                                    new TestNode ("D2") { Value = 3},
                                 }
                             }               
                         }
@@ -107,28 +102,25 @@ namespace CodeMetricsLoader.Tests.UnitTests
                 }
             };
 
-            var nodeB = new TestNode
+            var nodeB = new TestNode ("A")
             {
-                Name = "A",
                 Value = 1,
                 TestNodeChildren = new List<TestNode>
                 {
-                    new TestNode
+                    new TestNode ("B")
                     {
-                        Name = "B",
                         Value = 2,
                         TestNodeChildren = new List<TestNode>
                         {
-                            new TestNode
+                            new TestNode ("C")
                             {
-                                Name = "C",
                                 Value = 1,
                                 TestNodeChildren = new List<TestNode>
                                 {
-                                    new TestNode { Name = "D1", Value = 10},
-                                    new TestNode { Name = "D2", Value = 20},
-                                    new TestNode { Name = "D3", Value = 30},
-                                }
+                                    new TestNode ("D1") { Value = 10},
+                                    new TestNode ("D2") { Value = 20},
+                                    new TestNode ("D3") { Value = 30},
+                                }                    
                             }               
                         }
                     },   

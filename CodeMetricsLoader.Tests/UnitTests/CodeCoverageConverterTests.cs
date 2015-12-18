@@ -27,7 +27,7 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.That(result.Count, Is.EqualTo(1));
             var module = result.First().Modules.First();
             Assert.That(module.Name, Is.EqualTo("CodeMetricsLoader"));
-            Assert.That(module.Metrics.CodeCoverage, Is.EqualTo(73));
+            Assert.That(module.Metrics.CodeCoverage, Is.EqualTo(88));
             Assert.That(module.Namespaces.Count, Is.EqualTo(4));
         }
 

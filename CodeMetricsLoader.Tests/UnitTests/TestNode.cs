@@ -17,12 +17,13 @@ namespace CodeMetricsLoader.Tests.UnitTests
         
         public List<TestNode> TestNodeChildren { get; set; }
 
-        public override string Key { get { return "Test-" + Name; } }
+        public override string Key { get; }
 
 
-        public TestNode()
+        public TestNode(string name) : base (name)
         {
             TestNodeChildren = new List<TestNode>();
+            Key = "Test-" + Name;
         }
 
         public override void AddChild(Node child)

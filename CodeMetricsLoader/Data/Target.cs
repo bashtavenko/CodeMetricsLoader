@@ -7,23 +7,19 @@ namespace CodeMetricsLoader.Data
 {
     public class Target : Node
     {        
-        public string FileName { get { return System.IO.Path.GetFileName(Name); } }
+        public string FileName { get; }
         public IList<Module> Modules { get; set; }
-        public override string Key { get { return "Target-" + FileName; } }
+        public override string Key { get; }
 
         public override int? Value { get { return (int?) Modules.Average(s => s.Value); } set {} }
 
-        public override IList<Node> Children
-        {
-            get
-            {
-                //Classes and structs do not support variance.
-                return (Modules as IEnumerable<Node>).ToList();
-            }
-        }
+        //Classes and structs do not support variance.
+        public override IList<Node> Children => (Modules as IEnumerable<Node>).ToList();
 
-        public Target()
+        public Target(string name) : base (name)
         {
+            FileName = System.IO.Path.GetFileName(Name);
+            Key = "Target-" + DropDllOrExeIfExists(FileName);
             Modules = new List<Module>();
         }
 
@@ -35,18 +31,6 @@ namespace CodeMetricsLoader.Data
             }
 
             Modules.Add((Module) child);
-        }
-
-        // Similar to modules
-        public override bool Equals(object obj)
-        {
-            var otherNode = obj as Target;
-            return otherNode != null && DropDllOrExeIfExists(FileName).Equals(DropDllOrExeIfExists(otherNode.FileName), StringComparison.InvariantCulture);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

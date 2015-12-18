@@ -8,7 +8,7 @@ namespace CodeMetricsLoader.Data
     {     
         public List<Type> Types { get; set; }
         public Metrics Metrics { get; set; }
-        public override string Key { get { return "Namespace-" + Name; } }
+        public override string Key { get; }
         
         public override int? Value
         {
@@ -16,19 +16,14 @@ namespace CodeMetricsLoader.Data
             set { Metrics.CodeCoverage = value; }
         }
 
-        public override IList<Node> Children
-        {
-            get
-            {
-                //Classes and structs do not support variance.
-                return (Types as IEnumerable<Node>).ToList();
-            }
-        }
+        //Classes and structs do not support variance.
+        public override IList<Node> Children => (Types as IEnumerable<Node>).ToList();
 
-        public Namespace()
+        public Namespace(string name) : base (name)
         {
             Types = new List<Type>();
             Metrics = new Metrics();
+            Key = "Namespace-" + Name;
         }
 
         public override void AddChild(Node child)

@@ -8,7 +8,7 @@ namespace CodeMetricsLoader.Data
     {
         public Metrics Metrics { get; set; }
         public override IList<Node> Children { get { return new List<Node>(); }}
-        public override string Key { get { return "Member-" + Name; } }
+        public override string Key { get; }
         public string File { get; set; }
         public int? Line { get; set; }
         public string FileName { get { return string.IsNullOrEmpty(File) ? null : Path.GetFileName(File); } }
@@ -20,9 +20,10 @@ namespace CodeMetricsLoader.Data
             set { Metrics.CodeCoverage = value; }
         }
 
-        public Member()
+        public Member(string name) : base (name)
         {
             Metrics = new Metrics();
+            Key = "Member-" + Name;
         }
     }
 }

@@ -32,24 +32,26 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.AreEqual(1, targets.Count);
             var target = targets[0];
             Assert.IsNotEmpty(target.Name);
+            Assert.That(target.Key, Is.EqualTo("Target-WebServices.Inbound"));
 
             Assert.AreEqual(1, target.Modules.Count);
             var module = target.Modules[0];
             Assert.IsNotEmpty(module.Name);
             Assert.IsNotEmpty(module.AssemblyVersion);
             Assert.IsNotEmpty(module.FileVersion);
-                       
+            Assert.That(module.Key, Is.EqualTo("Module-WebServices.Inbound"));
 
             Assert.AreEqual(1, module.Namespaces.Count);
             var ns = module.Namespaces[0];
-            
-
+            Assert.That(ns.Key, Is.EqualTo("Namespace-WebServices.Inbound"));
             Assert.AreEqual(16, ns.Types.Count);
             var type = ns.Types[1];
+            Assert.That(type.Key, Is.EqualTo("Type-IQpayService"));
 
             Assert.AreEqual(6, type.Members.Count);
             var member = type.Members[0];
             Assert.IsNotNull(member.Metrics);
+            Assert.That(member.Key, Is.EqualTo("Member-AccountLookup(AccountLookupRequest) : AccountLookupResponse"));
 
             var metrics = member.Metrics;
             Assert.IsTrue(metrics.ClassCoupling > 0 || metrics.CyclomaticComplexity > 0 ||
@@ -69,8 +71,7 @@ namespace CodeMetricsLoader.Tests.UnitTests
             Assert.IsNotNull(testMember.File);
             Assert.IsNotNull(testMember.Line);
         }
-
-
+        
         public static XElement LoadXmlFromAbsolutePath(string absolutePathFileName)
         {
             using (StreamReader sr = new StreamReader(absolutePathFileName))

@@ -12,36 +12,12 @@ namespace CodeMetricsLoader
     {
         public static void CreateMaps()
         {
-            Mapper.CreateMap<XElement, Metrics>()
-                .ConvertUsing(MapMetrics);
-            
-            Mapper.CreateMap<XElement, Target>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.Value, opt => opt.Ignore());
-
-            Mapper.CreateMap<XElement, Data.Module>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.FileVersion, opt => opt.MapFrom(src => GetStringAttribute(src, "FileVersion")))
-                .ForMember(m => m.AssemblyVersion, opt => opt.MapFrom(src => GetStringAttribute(src, "AssemblyVersion")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
-                .ForMember(m => m.Value, opt => opt.Ignore());
-
-            Mapper.CreateMap<XElement, Namespace>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
-                .ForMember(m => m.Value, opt => opt.Ignore());
-
-            Mapper.CreateMap<XElement, Data.Type>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
-                .ForMember(m => m.Value, opt => opt.Ignore());
-
-            Mapper.CreateMap<XElement, Member>()
-                .ForMember(m => m.Name, opt => opt.MapFrom(src => GetStringAttribute(src, "Name")))                
-                .ForMember(m => m.Metrics, opt => opt.MapFrom(src => MapMetrics(src.Element("Metrics"))))
-                .ForMember(m => m.File, opt => opt.MapFrom(src => GetStringAttribute(src, "File")))
-                .ForMember(m => m.Line, opt => opt.MapFrom(src => GetNullableIntAttribute(src, "Line")))
-                .ForMember(m => m.Value, opt => opt.Ignore());
+            Mapper.CreateMap<XElement, Metrics>().ConvertUsing(MapMetrics);
+            Mapper.CreateMap<XElement, Target>().ConvertUsing(MapTarget);
+            Mapper.CreateMap<XElement, Data.Module>().ConvertUsing(MapModule);
+            Mapper.CreateMap<XElement, Namespace>().ConvertUsing(MapNamespace);
+            Mapper.CreateMap<XElement, Data.Type>().ConvertUsing(MapType);
+            Mapper.CreateMap<XElement, Member>().ConvertUsing(MapMember);
 
             Mapper.CreateMap<Metrics, FactMetrics>()
                 .ForMember(m => m.Module, opt => opt.Ignore())
@@ -79,7 +55,7 @@ namespace CodeMetricsLoader
                 PropertyInfo property = metrics.GetType().GetProperty(name);
                 if (property == null)
                 {
-                    throw new LoaderException(string.Format("No {0} property", name));
+                    throw new LoaderException($"No {name} property");
                 }
 
                 property.SetValue(metrics, value);
@@ -88,7 +64,7 @@ namespace CodeMetricsLoader
             return metrics;
         }        
 
-        private static string GetStringAttribute(XElement element, string name)
+        public static string GetStringAttribute(XElement element, string name)
         {
             return element.Attribute(name) != null ? element.Attribute(name).Value : string.Empty;            
         }
@@ -102,6 +78,47 @@ namespace CodeMetricsLoader
         {
             var value = GetStringAttribute(element, name);
             return !string.IsNullOrEmpty(value) ? Convert.ToInt32(value) : (int?)null;
+        }
+
+        private static Target MapTarget(XElement element)
+        {
+            return new Target(GetStringAttribute(element, "Name"));
+        }
+
+        private static Data.Module MapModule(XElement element)
+        {
+            return new Data.Module(GetStringAttribute(element, "Name"))
+            {
+                FileVersion = GetStringAttribute(element, "FileVersion"),
+                AssemblyVersion = GetStringAttribute(element, "AssemblyVersion"),
+                Metrics = MapMetrics(element.Element("Metrics"))
+            };
+        }
+
+        private static Namespace MapNamespace(XElement element)
+        {
+            return new Namespace(GetStringAttribute(element, "Name"))
+            {
+                Metrics = MapMetrics(element.Element("Metrics"))
+            };
+        }
+
+        private static Data.Type MapType(XElement element)
+        {
+            return new Data.Type(GetStringAttribute(element, "Name"))
+            {
+                Metrics = MapMetrics(element.Element("Metrics"))
+            };
+        }
+
+        private static Member MapMember(XElement element)
+        {
+            return new Member(GetStringAttribute(element, "Name"))
+            {
+                File = GetStringAttribute(element, "File"),
+                Line = GetNullableIntAttribute(element, "Line"),
+                Metrics = MapMetrics(element.Element("Metrics"))
+            };
         }
     }
 }

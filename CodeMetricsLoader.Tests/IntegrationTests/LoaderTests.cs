@@ -135,7 +135,7 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                                 where fm.Moduleid = @moduleId and fm.NamespaceId is null and fm.TypeId is null and fm.MemberId is null",
                                 new {moduleId}).Single();
                 Assert.That(moduleMetrics.MaintainabilityIndex, Is.EqualTo(85));
-                Assert.That(moduleMetrics.CodeCoverage, Is.EqualTo(70));
+                Assert.That(moduleMetrics.CodeCoverage, Is.EqualTo(84));
             }
         }
 

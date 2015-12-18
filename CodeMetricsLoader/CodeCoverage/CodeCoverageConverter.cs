@@ -22,10 +22,11 @@ namespace CodeMetricsLoader.CodeCoverage
 
             foreach (var assemblyElement in summary.Descendants("Assembly"))
             {
-                var target = new Target {Name = GetName(assemblyElement)};
-                var module = new Module
+                var target = new Target (GetName(assemblyElement));
+
+                // We don't know if this is dll or exe but this is taken care in Target and Module implementation
+                var module = new Module (target.Name) 
                 {
-                    Name = target.Name, // We don't know if this is dll or exe
                     Metrics = GetElementMetrics(assemblyElement)
                 };
                 target.Modules.Add(module);
@@ -34,9 +35,8 @@ namespace CodeMetricsLoader.CodeCoverage
                     string fullClassName = GetName(classElement);
                     var thisClass = CodeCoverageClass.Parse(fullClassName);
 
-                    var type = new CodeMetricsLoader.Data.Type
+                    var type = new CodeMetricsLoader.Data.Type (thisClass.ClassName)
                     {
-                        Name = thisClass.ClassName,
                         Metrics = GetElementMetrics(classElement)
                     };
                     
@@ -44,7 +44,7 @@ namespace CodeMetricsLoader.CodeCoverage
                     if (ns == null)
                     {
                         // Haven't seen this namespace yet
-                        ns = new Namespace {Name = thisClass.Namespace};
+                        ns = new Namespace (thisClass.Namespace);
                         module.Namespaces.Add(ns);
                     }
 
@@ -72,7 +72,7 @@ namespace CodeMetricsLoader.CodeCoverage
 
         private Metrics GetElementMetrics(XElement element)
         {
-            var attribute = element.Attribute("branchcoverage");
+            var attribute = element.Attribute("coverage");
             if (attribute == null)
             {
                 throw new ArgumentException("No code coverage data");
