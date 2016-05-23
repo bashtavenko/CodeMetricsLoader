@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Xml.Linq;
 
 using NUnit.Framework;
@@ -11,13 +13,29 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
     [TestFixture]
     public class LoaderTests
     {
+        private string _connectionString;
+        private SqlConnection _db;
+
+        [TestFixtureSetUp]
+        public void Setup()
+        {
+            _connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestsDb"].ConnectionString;
+            _db = new SqlConnection(_connectionString);
+        }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            _db.Close();
+        }
+
         [Test]
         public void Loader_Load_CanSaveXml()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            DropAndCreateDatabase();
+            using (var repository = new MetricsRepository(_connectionString, new TestLogger()))
             {
-                Loader loader = new Loader(context, new TestLogger());
-
+                Loader loader = new Loader(repository, new TestLogger());
                 XElement metrics = UnitTests.LoaderTests.LoadXml();
                 loader.Load(metrics, null, false);
             }
@@ -61,17 +79,17 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         //[Test]
         public void Loader_Load_CanSaveXmlWithDups()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            using (var repository = new MetricsRepository(_connectionString, new TestLogger()))
             {
-                Loader loader = new Loader(context, new TestLogger());
+                Loader loader = new Loader(repository, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
                 loader.Load(metrics, null, true);
             }
 
-            using (LoaderContext context = ContextTests.CreateTestContext())
+            using (var repository = new MetricsRepository(_connectionString, new TestLogger()))
             {
-                Loader loader = new Loader(context, new TestLogger());
+                Loader loader = new Loader(repository, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("DupCheck.xml");
                 loader.Load(metrics, null, true);
@@ -90,10 +108,9 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void Loader_Load_CanSaveTheSameXmlTwice()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            using (var repository = new MetricsRepository(_connectionString, new TestLogger()))
             {
-
-                var loader = new Loader(context, new TestLogger());
+                var loader = new Loader(repository, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml();
                 loader.Load(metrics, null, false);
@@ -106,32 +123,32 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void Loader_LoadMetricsAndCodeCoverage()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            DropAndCreateDatabase();
+            using (var repository = new MetricsRepository(_connectionString, new TestLogger()))
             {
-                var loader = new Loader(context, new TestLogger());
+                var loader = new Loader(repository, new TestLogger());
 
                 XElement metrics = UnitTests.LoaderTests.LoadXml("CodeMetricsLoader.metrics.xml");
                 XElement codeCoverage = UnitTests.LoaderTests.LoadXml("CodeMetricsLoader.CodeCoverage.xml");
                 loader.Load(metrics, codeCoverage, false);
-
-                var db = context.Database.Connection;
-                var modules = db.Query("select * from DimModule").ToList();
+                
+                var modules =  _db.Query("select * from DimModule").ToList();
                 Assert.That(modules.Count(), Is.EqualTo(1));
                 var moduleId = modules.First().ModuleId;
 
-                var namespaces = db.Query("select * from DimNamespace").ToList();
+                var namespaces = _db.Query("select * from DimNamespace").ToList();
                 Assert.That(namespaces.Count, Is.EqualTo(4));
 
-                var types = db.Query("select * from DimType").ToList();
+                var types = _db.Query("select * from DimType").ToList();
                 Assert.That(types.Count, Is.EqualTo(66));
 
-                var members = db.Query("select * from DimMember").ToList();
+                var members = _db.Query("select * from DimMember").ToList();
                 Assert.That(members.Count, Is.EqualTo(419));
 
-                var moduleMetrics = db.Query(@"
+                var moduleMetrics = _db.Query(@"
                                 select * from FactMetrics fm
                                 where fm.Moduleid = @moduleId and fm.NamespaceId is null and fm.TypeId is null and fm.MemberId is null",
-                                new {moduleId}).Single();
+                    new { moduleId }).Single();
                 Assert.That(moduleMetrics.MaintainabilityIndex, Is.EqualTo(85));
                 Assert.That(moduleMetrics.CodeCoverage, Is.EqualTo(84));
             }
@@ -140,13 +157,20 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
         [Test]
         public void Loader_LoadMetricsAndCodeCoverageAdHoc()
         {
-            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            DropAndCreateDatabase();
+            using (var repository = new MetricsRepository(_connectionString, new TestLogger()))
             {
-                var loader = new Loader(context, new TestLogger());
-
+                var loader = new Loader(repository, new TestLogger());
                 XElement metrics = UnitTests.LoaderTests.LoadXmlFromAbsolutePath(@"C:\My\CodeMetrics\CodeCoverage\PowerToolOutput\Approve.Me.Common.metrics.xml");
                 XElement codeCoverage = UnitTests.LoaderTests.LoadXmlFromAbsolutePath(@"C:\My\CodeMetrics\CodeCoverage\approve.me.api\Summary.xml");
                 loader.Load(metrics, codeCoverage, false);
+            }
+        }
+
+        public void DropAndCreateDatabase()
+        {
+            using (LoaderContext context = ContextTests.CreateTestContext(true))
+            {
             }
         }
     }

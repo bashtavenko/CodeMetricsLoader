@@ -57,6 +57,10 @@
     <Reference Include="CommandLine">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
     </Reference>
+    <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -87,6 +91,7 @@
     <Compile Include="Data\DimNamespace.cs" />
     <Compile Include="Data\DimType.cs" />
     <Compile Include="Data\DimMember.cs" />
+    <Compile Include="Data\IMetricsRepository.cs" />
     <Compile Include="Data\Maps\DimBranchConfiguration.cs" />
     <Compile Include="Data\Maps\DimDateConfiguration.cs" />
     <Compile Include="Data\Maps\DimMemberConfiguration.cs" />

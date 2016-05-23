@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Linq;
-
 using CodeMetricsLoader.Data;
 
 namespace CodeMetricsLoader
@@ -17,19 +16,10 @@ namespace CodeMetricsLoader
             {                
                 return;
             }                        
+            
+            var repository = new MetricsRepository(config.ConnectionString, logger);
+            var loader = new Loader(repository, logger);
 
-            LoaderContext context;
-            if (!string.IsNullOrEmpty(config.ConnectionString))
-            {                
-                context = new LoaderContext(config.ConnectionString);
-            }
-            else
-            {
-                context = new LoaderContext();
-            }
-
-            var loader = new Loader(context, logger);
-                        
             try
             {
                 XElement metricsElements = null, codeCoverageElements = null;
@@ -56,7 +46,11 @@ namespace CodeMetricsLoader
             catch (Exception ex)
             {
                 logger.Log(ex.Message);
-            }            
+            }
+            finally
+            {
+                repository?.Dispose();
+            }           
         }
 
         private static XElement GetXml(string filePath, Logger logger)

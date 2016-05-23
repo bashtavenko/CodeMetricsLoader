@@ -12,17 +12,17 @@ namespace CodeMetricsLoader
     public class Loader
     {
         private readonly ILogger _logger;
-        private readonly MetricsRepository _repository;
-
+        private readonly IMetricsRepository _repository;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Loader"/> class
         /// </summary>
-        /// <param name="context">Entity Framework context</param>
+        /// <param name="repository">Database repository</param>
         /// <param name="logger">logger</param>
-        public Loader(LoaderContext context, ILogger logger)
+        public Loader(IMetricsRepository repository, ILogger logger)
         {
             _logger = logger;
-            _repository = new MetricsRepository(context, logger);
+            _repository = repository;
             AutoMapperConfig.CreateMaps();
         }
 

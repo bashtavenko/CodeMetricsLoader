@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using AutoMapper;
 
 namespace CodeMetricsLoader.Data
 {
-    public class MetricsRepository
+    public class MetricsRepository : IMetricsRepository
     {
         private readonly LoaderContext _context;
         private readonly ILogger _logger;
-
-        public MetricsRepository(LoaderContext context, ILogger logger)
+        private readonly SqlConnection _connection;
+        
+        public MetricsRepository(string connectionString, ILogger logger)
         {
-            _context = context;
+            if (connectionString == null)
+            {
+                throw new ArgumentNullException(nameof(connectionString));
+            }
+            _context = new LoaderContext(connectionString);
+            _connection = new SqlConnection(connectionString);
             _logger = logger;
         }
 
@@ -193,6 +200,12 @@ namespace CodeMetricsLoader.Data
         private bool HaveDataForThisDate(int? branchId, string moduleName, DateTime date)
         {
             return _context.Metrics.Any(m => m.BranchId == branchId && m.Date.Date == date && m.Module.Name.Equals(moduleName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        public void Dispose()
+        {
+            _connection.Close();
+            _context.Dispose();
         }
     }
 }

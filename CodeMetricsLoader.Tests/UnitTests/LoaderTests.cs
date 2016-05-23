@@ -7,6 +7,7 @@ using NUnit.Framework;
 
 using CodeMetricsLoader.Data;
 using CodeMetricsLoader.Tests.IntegrationTests;
+using Moq;
 
 namespace CodeMetricsLoader.Tests.UnitTests
 {
@@ -16,13 +17,15 @@ namespace CodeMetricsLoader.Tests.UnitTests
         private XElement _elements;
         private Loader _loader;
         private LoaderContext _context;
+        private Mock<IMetricsRepository> _repoMock;
 
         [TestFixtureSetUp]
         public void Setup()
         {
             _elements = LoadXml();            
             _context = ContextTests.CreateTestContext();
-            _loader = new Loader(_context, new TestLogger());
+            _repoMock = new Mock<IMetricsRepository>();
+            _loader = new Loader(_repoMock.Object, new TestLogger());
         }
 
         [Test]
