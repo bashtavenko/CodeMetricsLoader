@@ -96,6 +96,7 @@
     <Compile Include="Data\Maps\FactMetricsConfiguration.cs" />
     <Compile Include="CodeCoverage\Tree.cs" />
     <Compile Include="Data\MergeStatus.cs" />
+    <Compile Include="Data\MetricsRepository.cs" />
     <Compile Include="Data\Node.cs" />
     <Compile Include="LoaderConfiguration.cs" />
     <Compile Include="LoaderException.cs" />

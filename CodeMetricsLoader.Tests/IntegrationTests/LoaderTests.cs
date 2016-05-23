@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading;
+﻿using System.Linq;
 using System.Xml.Linq;
 
 using NUnit.Framework;
@@ -149,30 +147,6 @@ namespace CodeMetricsLoader.Tests.IntegrationTests
                 XElement metrics = UnitTests.LoaderTests.LoadXmlFromAbsolutePath(@"C:\My\CodeMetrics\CodeCoverage\PowerToolOutput\Approve.Me.Common.metrics.xml");
                 XElement codeCoverage = UnitTests.LoaderTests.LoadXmlFromAbsolutePath(@"C:\My\CodeMetrics\CodeCoverage\approve.me.api\Summary.xml");
                 loader.Load(metrics, codeCoverage, false);
-            }
-        }
-
-        [Test]
-        public void Loader_CreateReadOrDeleteBranch()
-        {
-            using (LoaderContext context = ContextTests.CreateTestContext(true))
-            {
-                var loader = new Loader(context, new TestLogger());
-
-                // Start fresh
-                const string branchName = "demo";
-                int branchId = loader.CreateReadOrDeleteBranch(branchName);
-
-                int anotherBranchId = loader.CreateReadOrDeleteBranch(branchName);
-                Assert.That(anotherBranchId, Is.EqualTo(branchId));
-
-                for (int i = 1; i <= 15; i++)
-                {
-                    loader.CreateReadOrDeleteBranch(branchName + i);
-                    Thread.Sleep(500);
-                }
-
-                Assert.That(context.Branches.Count(), Is.EqualTo(10));
             }
         }
     }

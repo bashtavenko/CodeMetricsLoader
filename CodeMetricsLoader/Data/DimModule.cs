@@ -15,10 +15,5 @@ namespace CodeMetricsLoader.Data
         {
             Metrics = new List<FactMetrics>();
         }
-
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="IntegrationTests\EndToEndTests.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\LoaderTests.cs" />
+    <Compile Include="IntegrationTests\MetricsRepositoryTests.cs" />
     <Compile Include="UnitTests\CodeCoverageConverterTests.cs" />
     <Compile Include="TestLogger.cs" />
     <Compile Include="UnitTests\LoaderTests.cs" />
