@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using AutoMapper;
+using Dapper;
 
 namespace CodeMetricsLoader.Data
 {
@@ -34,16 +34,9 @@ namespace CodeMetricsLoader.Data
         /// <param name="branch">Optional branch name</param>
         public void SaveTargets(IList<Target> targets, bool useDateTime, string branch)
         {
-            _context.Configuration.AutoDetectChangesEnabled = false;
-
             var dimDate = new DimDate();
-
-            if (!useDateTime)
-            {
-                var date = dimDate.Date;
-                dimDate = GetOrAddEntity(_context.Dates, dimDate, d => d.Date.Date == date);
-            }
-
+            int dateId = GetOrInsertDate(dimDate);
+            
             int? branchId;
             if (string.IsNullOrEmpty(branch) || branch.Equals("master", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -57,7 +50,7 @@ namespace CodeMetricsLoader.Data
             FactMetrics factMetrics;
             foreach (var module in targets.SelectMany(m => m.Modules))
             {
-                if (HaveDataForThisDate(branchId, module.Name, dimDate.Date))
+                if (HaveDataForThisDate(branchId, module.Name, dateId))
                 {
                     string branchNameToDisplay = branch ?? "master";
                     _logger.Log($"Already have data for branch '{branchNameToDisplay}', module {module.Name} and this date.");
@@ -65,77 +58,51 @@ namespace CodeMetricsLoader.Data
                 }
 
                 var dimModule = Mapper.Map<DimModule>(module);
-                string moduleName = dimModule.Name;
-                dimModule = GetOrAddEntity(_context.Modules, dimModule, m => m.Name == moduleName);
+                int moduleId = GetOrInsertModule(dimModule);
                 factMetrics = Mapper.Map<FactMetrics>(module.Metrics);
                 factMetrics.BranchId = branchId;
-                factMetrics.Module = dimModule;
-                factMetrics.Date = dimDate;
-                _context.Metrics.Add(factMetrics);
+                factMetrics.ModuleId = moduleId;
+                factMetrics.DateId = dateId;
+                InsertMetrics(factMetrics);
                 foreach (var ns in module.Namespaces)
                 {
                     var dimNamespace = Mapper.Map<DimNamespace>(ns);
-                    string namespaceName = dimNamespace.Name;
-                    dimNamespace = GetOrAddEntity(_context.Namespaces, dimNamespace, n => n.Name == namespaceName);
-                    dimNamespace.Modules.Add(dimModule);
+                    int namespaceId = GetOrInsertNamespace(dimNamespace);
+                    InsertModuleNamespace(moduleId, namespaceId);
                     factMetrics = Mapper.Map<FactMetrics>(ns.Metrics);
                     factMetrics.BranchId = branchId;
-                    factMetrics.Module = dimModule;
-                    factMetrics.Namespace = dimNamespace;
-                    factMetrics.Date = dimDate;
-                    _context.Metrics.Add(factMetrics);
+                    factMetrics.ModuleId = moduleId;
+                    factMetrics.NamespaceId = namespaceId;
+                    factMetrics.DateId = dateId;
+                    InsertMetrics(factMetrics);
                     foreach (var type in ns.Types)
                     {
                         var dimType = Mapper.Map<DimType>(type);
-                        string typeName = dimType.Name;
-                        dimType = GetOrAddEntity(_context.Types, dimType, t => t.Name == typeName);
-                        dimType.Namespaces.Add(dimNamespace);
+                        int typeId = GetOrInsertType(dimType);
+                        InsertNamespaceType(namespaceId, typeId);
                         factMetrics = Mapper.Map<FactMetrics>(type.Metrics);
                         factMetrics.BranchId = branchId;
-                        factMetrics.Module = dimModule;
-                        factMetrics.Namespace = dimNamespace;
-                        factMetrics.Type = dimType;
-                        factMetrics.Date = dimDate;
-                        _context.Metrics.Add(factMetrics);
+                        factMetrics.ModuleId = moduleId;
+                        factMetrics.NamespaceId = namespaceId;
+                        factMetrics.TypeId = typeId;
+                        factMetrics.DateId = dateId;
+                        InsertMetrics(factMetrics);
                         foreach (var member in type.Members)
                         {
                             var dimMember = Mapper.Map<DimMember>(member);
-                            string memberName = dimMember.Name;
-                            string memberFileName = dimMember.File;
-                            int? memberLine = dimMember.Line;
-                            dimMember = GetOrAddEntity(_context.Members, dimMember, m => m.Name == memberName && m.File == memberFileName && m.Line == memberLine);
-                            dimMember.Types.Add(dimType);
+                            int memberId = GetOrInsertMember(dimMember);
+                            InsertTypeMember(typeId, memberId);
                             factMetrics = Mapper.Map<FactMetrics>(member.Metrics);
                             factMetrics.BranchId = branchId;
-                            factMetrics.Module = dimModule;
-                            factMetrics.Namespace = dimNamespace;
-                            factMetrics.Type = dimType;
-                            factMetrics.Member = dimMember;
-                            factMetrics.Date = dimDate;
-                            _context.Metrics.Add(factMetrics);
+                            factMetrics.ModuleId = moduleId;
+                            factMetrics.NamespaceId = namespaceId;
+                            factMetrics.TypeId = typeId;
+                            factMetrics.MemberId = memberId;
+                            factMetrics.DateId = dateId;
+                            InsertMetrics(factMetrics);
                         }
                     }
                 }
-            }
-            try
-            {
-                _context.Configuration.AutoDetectChangesEnabled = true;
-                _context.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                var sb = new StringBuilder("Failed to save\n");
-                foreach (var entity in ex.EntityValidationErrors)
-                {
-                    sb.AppendLine(string.Format("Entity: {0}", entity.Entry.Entity));
-                    foreach (var error in entity.ValidationErrors)
-                    {
-                        sb.AppendLine(string.Format("Property: {0}", error.PropertyName));
-                        sb.AppendLine(string.Format("Error: {0}", error.ErrorMessage));
-                    }
-                    sb.AppendLine();
-                }
-                throw new ApplicationException(sb.ToString(), ex);
             }
         }
 
@@ -162,44 +129,224 @@ namespace CodeMetricsLoader.Data
 
             var newBranch = new DimBranch { Name = branchName, CreatedDate = DateTime.Now };
             _context.Branches.Add(newBranch);
-            _context.SaveChanges();
+            SaveChanges();
             return newBranch.BranchId;
         }
 
-        /// <summary>
-        /// Gets existing entity from db or adds one
-        /// </summary>
-        /// <typeparam name="T">Dimension (type, module, namespace, etc)</typeparam>
-        /// <param name="list">List of these entities from the context</param>
-        /// <param name="src">Entity itself</param>
-        /// <param name="where">Where clause used to search for this entity</param>
-        /// <returns>Newly added entity of entity from database</returns>
-        private static T GetOrAddEntity<T>(DbSet<T> list, T src, Func<T, bool> where) where T : class
+        private void SaveChanges()
         {
-            var srcFromDb = list.Local.FirstOrDefault(where); // .Local means we'll get unsaved entities
-
-            if (srcFromDb == null)
+            try
             {
-                srcFromDb = list.FirstOrDefault(where); // Maybe it was saved before
-                if (srcFromDb == null)
-                {
-                    list.Add(src);
-                    return src;
-                }
-                else
-                {
-                    return srcFromDb;
-                }
+                _context.SaveChanges();
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                return srcFromDb;
+                var sb = new StringBuilder("Failed to save\n");
+                foreach (var entity in ex.EntityValidationErrors)
+                {
+                    sb.AppendLine(string.Format("Entity: {0}", entity.Entry.Entity));
+                    foreach (var error in entity.ValidationErrors)
+                    {
+                        sb.AppendLine(string.Format("Property: {0}", error.PropertyName));
+                        sb.AppendLine(string.Format("Error: {0}", error.ErrorMessage));
+                    }
+                    sb.AppendLine();
+                }
+                throw new ApplicationException(sb.ToString(), ex);
             }
         }
 
-        private bool HaveDataForThisDate(int? branchId, string moduleName, DateTime date)
+        private void InsertMetrics(FactMetrics metrics)
         {
-            return _context.Metrics.Any(m => m.BranchId == branchId && m.Date.Date == date && m.Module.Name.Equals(moduleName, StringComparison.InvariantCultureIgnoreCase));
+            const string sqlTemplate = @"INSERT INTO dbo.FactMetrics
+                                           (BranchId
+                                           ,DateId
+                                           ,ModuleId
+                                           ,NamespaceId
+                                           ,TypeId
+                                           ,MemberId
+                                           ,MaintainabilityIndex
+                                           ,CyclomaticComplexity
+                                           ,ClassCoupling
+                                           ,DepthOfInheritance
+                                           ,LinesOfCode
+                                           ,CodeCoverage)
+                                     VALUES
+                                           (@branchId
+		                                    ,@dateId
+			                                ,@moduleId
+			                                ,@namespaceId
+			                                ,@typeId
+			                                ,@memberId
+			                                ,@maintainabilityIndex
+                                            ,@cyclomaticComplexity
+                                            ,@classCoupling
+                                            ,@depthOfInheritance
+                                            ,@linesOfCode
+                                            ,@codeCoverage)";
+            _connection.Execute(sqlTemplate, new
+            {
+                metrics.BranchId,
+                metrics.DateId,
+                metrics.ModuleId,
+                metrics.NamespaceId,
+                metrics.TypeId,
+                metrics.MemberId,
+                metrics.MaintainabilityIndex,
+                metrics.CyclomaticComplexity,
+                metrics.ClassCoupling,
+                metrics.DepthOfInheritance,
+                metrics.LinesOfCode,
+                metrics.CodeCoverage
+            });
+        }
+
+        private int GetOrInsertDate(DimDate date)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT DateId FROM dbo.DimDate WHERE Date = @date", new {date.Date});
+            if (id.HasValue)
+            {
+                return id.Value;
+            }
+            else
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimDate
+                                           (DateTime
+                                           ,Year
+                                           ,YearString
+                                           ,Month
+                                           ,MonthString                                           
+                                           ,WeekOfYear
+                                           ,Date
+                                           ,DayOfYear
+                                           ,DayOfMonth
+                                           ,DayOfWeek)                                           
+                                     VALUES
+                                           (@dateTime
+		                                    ,@year
+			                                ,@yearString
+			                                ,@month
+			                                ,@monthString			                                
+			                                ,@weekOfYear
+                                            ,@date
+                                            ,@dayOfYear
+                                            ,@dayOfMonth
+                                            ,@dayOfWeek);
+                                     SELECT SCOPE_IDENTITY();";
+                id = _connection.ExecuteScalar<int>(sqlTemplate, new
+                {
+                    date.DateTime,
+                    date.Year,
+                    date.YearString,
+                    date.Month,
+                    date.MonthString,
+                    date.WeekOfYear,
+                    date.Date,
+                    date.DayOfYear,
+                    date.DayOfMonth,
+                    date.DayOfWeek
+                });
+                return id ?? -1;
+            }
+        }
+
+        private int GetOrInsertModule(DimModule module)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT ModuleId FROM dbo.DimModule WHERE Name = @name", new { module.Name });
+            if (id.HasValue)
+            {
+                return id.Value;
+            }
+            else
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimModule (Name, AssemblyVersion,FileVersion) VALUES (@name, @assemblyVersion, @fileVersion);
+                                             SELECT SCOPE_IDENTITY();";
+                id = _connection.ExecuteScalar<int>(sqlTemplate, new {module.Name, module.AssemblyVersion, module.FileVersion});
+                return id ?? -1;
+            }
+        }
+
+        private int GetOrInsertNamespace(DimNamespace ns)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT NamespaceId FROM dbo.DimNamespace WHERE Name = @name", new { ns.Name });
+            if (id.HasValue)
+            {
+                return id.Value;
+            }
+            else
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimNamespace (Name) VALUES (@name);
+                                             SELECT SCOPE_IDENTITY();";
+                id = _connection.ExecuteScalar<int>(sqlTemplate, new { ns.Name });
+                return id ?? -1;
+            }
+        }
+
+        private void InsertModuleNamespace(int moduleId, int namespaceId)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT 1 FROM dbo.DimModuleNamespace WHERE ModuleId = @moduleId AND NamespaceId = @namespaceId", new { moduleId, namespaceId });
+            if (id == null)
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimModuleNamespace (ModuleId, NamespaceId) VALUES (@moduleId, @namespaceId)";
+                _connection.ExecuteScalar<int>(sqlTemplate, new {moduleId, namespaceId});
+            }
+        }
+
+        private int GetOrInsertType(DimType type)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT TypeId FROM dbo.DimType WHERE Name = @name", new { type.Name });
+            if (id.HasValue)
+            {
+                return id.Value;
+            }
+            else
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimType (Name) VALUES (@name);
+                                             SELECT SCOPE_IDENTITY();";
+                id = _connection.ExecuteScalar<int>(sqlTemplate, new { type.Name });
+                return id ?? -1;
+            }
+        }
+
+        private void InsertNamespaceType(int namespaceId, int typeId)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT 1 FROM dbo.DimNamespaceType WHERE NamespaceId = @namespaceId AND TypeId = @typeId", new { namespaceId, typeId });
+            if (id == null)
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimNamespaceType (NamespaceId, TypeId) VALUES (@namespaceId, @typeId)";
+                _connection.ExecuteScalar<int>(sqlTemplate, new { namespaceId, typeId });
+            }
+        }
+
+        private int GetOrInsertMember(DimMember member)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT MemberId FROM dbo.DimMember WHERE Name = @name AND [File] = @file AND Line = @line", new { member.Name, member.File, member.Line });
+            if (id.HasValue)
+            {
+                return id.Value;
+            }
+            else
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimMember (Name, [File], Line) VALUES (@name, @file, @line);
+                                             SELECT SCOPE_IDENTITY();";
+                id = _connection.ExecuteScalar<int>(sqlTemplate, new { member.Name, member.File, member.Line });
+                return id ?? -1;
+            }
+        }
+
+        private void InsertTypeMember(int typeId, int memberId)
+        {
+            var id = _connection.ExecuteScalar<int?>("SELECT 1 FROM dbo.DimTypeMember WHERE TypeId = @typeId AND MemberId = @memberId", new { typeId, memberId });
+            if (id == null)
+            {
+                const string sqlTemplate = @"INSERT INTO dbo.DimTypeMember (TypeId, MemberId) VALUES (@typeId, @memberId)";
+                _connection.ExecuteScalar<int>(sqlTemplate, new { typeId, memberId });
+            }
+        }
+        
+        private bool HaveDataForThisDate(int? branchId, string moduleName, int dateId)
+        {
+            return _context.Metrics.Any(m => m.BranchId == branchId && m.DateId == dateId && m.Module.Name == moduleName);
         }
 
         public void Dispose()
