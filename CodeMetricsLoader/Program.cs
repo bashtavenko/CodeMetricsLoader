@@ -45,7 +45,10 @@ namespace CodeMetricsLoader
             }
             catch (Exception ex)
             {
-                logger.Log(ex.Message);
+                for(var exception = ex; exception != null; exception = exception.InnerException)
+                { 
+                    logger.Log(exception.Message);
+                }
             }
             finally
             {

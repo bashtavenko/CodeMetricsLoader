@@ -127,11 +127,11 @@ namespace CodeMetricsLoader.Data
                 var sb = new StringBuilder("Failed to save\n");
                 foreach (var entity in ex.EntityValidationErrors)
                 {
-                    sb.AppendLine(string.Format("Entity: {0}", entity.Entry.Entity));
+                    sb.AppendLine($"Entity: {entity.Entry.Entity}");
                     foreach (var error in entity.ValidationErrors)
                     {
-                        sb.AppendLine(string.Format("Property: {0}", error.PropertyName));
-                        sb.AppendLine(string.Format("Error: {0}", error.ErrorMessage));
+                        sb.AppendLine($"Property: {error.PropertyName}");
+                        sb.AppendLine($"Error: {error.ErrorMessage}");
                     }
                     sb.AppendLine();
                 }
@@ -153,11 +153,14 @@ namespace CodeMetricsLoader.Data
             // although it would have to make deletes in more than one table.
             if (_context.Branches.Count() > maxNumberOfBranches)
             {
-                var branchesToDelete = _context.Branches
-                    .OrderBy(s => s.CreatedDate)
-                    .Take(_context.Branches.Count() - maxNumberOfBranches + 1);
+                // TODO: This doesn't work, we need to delete not only branches, but other entities as well.
+                throw new ApplicationException("Too many branches. Please truncate dbo.DimBranch and restart.");
 
-                _context.Branches.RemoveRange(branchesToDelete);
+                //var branchesToDelete = _context.Branches
+                //    .OrderBy(s => s.CreatedDate)
+                //    .Take(_context.Branches.Count() - maxNumberOfBranches + 1);
+
+                //_context.Branches.RemoveRange(branchesToDelete);
             }
 
             var newBranch = new DimBranch { Name = branchName, CreatedDate = DateTime.Now };
